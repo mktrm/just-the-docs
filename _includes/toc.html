@@ -1,4 +1,8 @@
 {%- assign toc_nodes = hierarchy | where_exp:"item", "item.name == page.title" | map: "items" | first -%}
+{%- assign parents = toc_nodes | map: "grand_parent" -%}
+{%- if parents.size >= 2 -%}
+  {%- assign toc_nodes = toc_nodes | where_exp:"item", "item.grand_parent == page.parent" -%}
+{%- endif -%}
 {%- if toc_nodes.size > 0 -%}
   <hr>
   <h2 class="text-delta">Table of contents</h2>

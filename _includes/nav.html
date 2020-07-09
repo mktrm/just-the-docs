@@ -3,6 +3,10 @@
     {%- include active.html node=node -%}
     <li class="nav-list-item{% if active %} active{% endif %}">
     {%- assign children = hierarchy | where_exp:"item", "item.name == node.title" | map: "items" | first -%}
+    {%- assign parents = children | map: "grand_parent" -%}
+    {%- if parents.size >= 2 -%}
+      {%- assign children = children | where_exp:"item", "item.grand_parent == node.parent" -%}
+    {%- endif -%}
     {%- if children -%}
       <a href="#" class="nav-list-expander"><svg viewBox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a>
     {%- endif -%}
