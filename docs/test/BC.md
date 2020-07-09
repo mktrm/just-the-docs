@@ -3,6 +3,8 @@ layout: default
 title: C
 parent: B
 ---
-# C of B
+# C
+
+Child of [B](../B)
 
 Level 2

@@ -4,6 +4,8 @@ title: F
 parent: C
 grand_parent: B
 ---
-# F of C of B
+# F
+
+Grandchild of [B](../B)
 
 Level 3
