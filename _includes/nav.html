@@ -7,11 +7,9 @@
       <a href="#" class="nav-list-expander"><svg viewBox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a>
     {%- endif -%}
     <a href="{{ node.url | absolute_url }}" class="nav-list-link{% if active %} active{% endif %}">{{ node.title }}</a>
-    {%- if active -%}
-      {%- assign active = false -%}
-      {%- if children -%}
-        {%- include nav.html nodes=children -%}
-      {%- endif -%}
+    {%- assign active = false -%}
+    {%- if children -%}
+      {%- include nav.html nodes=children -%}
     {%- endif -%}
     </li>
   {%- endfor -%}
