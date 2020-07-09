@@ -1,5 +1,5 @@
 {%- assign toc_nodes = hierarchy | where_exp:"item", "item.name == page.title" | map: "items" | first -%}
-{%- assign parents = toc_nodes | map: "grand_parent" -%}
+{%- assign parents = toc_nodes | map: "grand_parent" | uniq -%}
 {%- if parents.size >= 2 -%}
   {%- assign toc_nodes = toc_nodes | where_exp:"item", "item.grand_parent == page.parent" -%}
 {%- endif -%}

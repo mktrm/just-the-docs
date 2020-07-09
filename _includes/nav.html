@@ -3,7 +3,7 @@
     {%- include active.html node=node -%}
     <li class="nav-list-item{% if active %} active{% endif %}">
     {%- assign children = hierarchy | where_exp:"item", "item.name == node.title" | map: "items" | first -%}
-    {%- assign parents = children | map: "grand_parent" -%}
+    {%- assign parents = children | map: "grand_parent" | uniq -%}
     {%- if parents.size >= 2 -%}
       {%- assign children = children | where_exp:"item", "item.grand_parent == node.parent" -%}
     {%- endif -%}

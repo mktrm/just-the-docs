@@ -2,7 +2,7 @@
   {%- assign active = true -%}
 {%- else -%}
   {%- assign activity_children = hierarchy | where_exp:"item", "item.name == include.node.title" | map: "items" | first -%}
-  {%- assign parents = activity_children | map: "grand_parent" -%}
+  {%- assign parents = activity_children | map: "grand_parent" | uniq -%}
   {%- if parents.size >= 2 -%}
     {%- assign activity_children = activity_children | where_exp:"item", "item.grand_parent == include.node.parent" -%}
   {%- endif -%}

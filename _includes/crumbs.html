@@ -1,15 +1,15 @@
-{%- for crumbsNode in include.nodes -%}
-  {%- include active.html node=crumbsNode -%}
+{%- for crumbs_node in include.nodes -%}
+  {%- include active.html node=crumbs_node -%}
   {%- if active -%}
     {%- assign active = false -%}
     <li class="breadcrumb-nav-list-item">
-      {%- if crumbsNode.title == page.title -%}
-        {{ crumbsNode.title }}
+      {%- if crumbs_node.title == page.title -%}
+        {{ crumbs_node.title }}
       {%- else -%}
-        <a href="{{ crumbsNode.url | absolute_url }}">{{ crumbsNode.title }}</a>
+        <a href="{{ crumbs_node.url | absolute_url }}">{{ crumbs_node.title }}</a>
       {%- endif -%}
     </li>
-    {%- assign crumbsChildren = hierarchy | where_exp:"item", "item.name == crumbsNode.title" | map: "items" | first -%}
-    {%- include crumbs.html nodes=crumbsChildren -%}
+    {%- assign crumbs_children = hierarchy | where_exp:"item", "item.name == crumbs_node.title" | map: "items" | first -%}
+    {%- include crumbs.html nodes=crumbs_children -%}
   {%- endif -%}
 {%- endfor -%}
