@@ -1,11 +1,8 @@
 ---
 layout: default
 title: A
-has_children: true
-nav_order: 9991
+parent: Testing
 ---
 # A
 
 Level 1
-
-id: {{ page.id }}

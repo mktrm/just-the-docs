@@ -1,8 +1,7 @@
 ---
 layout: default
 title: B
-has_children: true
-nav_order: 9992
+parent: Testing
 ---
 # B
 
