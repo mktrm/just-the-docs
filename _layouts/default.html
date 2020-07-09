@@ -1,8 +1,17 @@
 ---
 layout: table_wrappers
 ---
-
-{%- assign hierarchy = site.html_pages | where_exp:"item", "item.nav_exclude != true" | sort:"title" | sort:"nav_order" | group_by:"parent" -%} 
+{%- assign ordered_pages_list = site.html_pages | where_exp:"item", "item.nav_order != nil" -%}
+{%- assign unordered_pages_list = site.html_pages | where_exp:"item", "item.nav_order == nil" -%}
+{%- if site.nav_sort == 'case_insensitive' -%}
+  {%- assign sorted_ordered_pages_list = ordered_pages_list | sort_natural:"nav_order" -%}
+  {%- assign sorted_unordered_pages_list = unordered_pages_list | sort_natural:"title" -%}
+{%- else -%}
+  {%- assign sorted_ordered_pages_list = ordered_pages_list | sort:"nav_order" -%}
+  {%- assign sorted_unordered_pages_list = unordered_pages_list | sort:"title" -%}
+{%- endif -%}
+{%- assign pages_list = sorted_ordered_pages_list | concat: sorted_unordered_pages_list -%}
+{%- assign hierarchy = pages_list | where_exp:"item", "item.nav_exclude != true" | group_by:"parent" -%} 
 {%- assign top_nodes = hierarchy | where_exp:"item", "item.name == ''" | map: "items" | first -%}
 
 <!DOCTYPE html>
