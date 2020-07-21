@@ -1,0 +1,43 @@
+{%- comment -%}
+  {% include nav_links.html nodes=unsorted_array ancestry=string1 path=string2 %}
+  - outputs links for the nodes and their children
+  - deletes nav_links_*, nav_active_*
+  
+  When one of the nodes is the current page, it should set nav_crumbs_nodes and child_nodes
+{%- endcomment -%}
+
+<ul class="nav-list">
+  {%- include nav_sort.html nodes=include.nodes -%}
+  {%- for node in nav_sort_nodes -%}
+    {%- assign nav_links_ancestors =  include.ancestors | push: node -%}
+    {%- assign nav_links_path =  include.path | append: " " | append: forloop.index -%}
+    <li class="nav-list-item{% if nav_page_path contains nav_links_path %} active{% endif %}">
+      {%- assign nav_links_child_nodes = nav_parenthood | where: "name", node.title
+            | map: "items" | first -%}
+      {%- assign nav_links_child_grandparent_titles = nav_links_child_nodes | map: "grand_parent" -%}
+      {%- assign nav_links_child_ancestor_titles = nav_links_child_nodes | map: "ancestor" -%}
+      {%- assign nav_links_titles = nav_links_child_grandparent_titles
+            | concat: nav_links_child_ancestor_titles | uniq -%}
+      {%- if nav_links_titles.size >= 2 -%}
+        {%- assign nav_links_grandchild_nodes = nav_links_child_nodes | where: "grand_parent", node.parent -%}
+        {%- assign nav_links_ancestors_titles = include.ancestors | map: "title" -%}
+        {%- assign nav_links_descendant_nodes = nav_links_child_nodes
+              | where_exp: "item", "nav_links_ancestors_titles contains item.ancestor" -%}
+        {%- assign nav_links_child_nodes = nav_links_grandchild_nodes
+              | concat: nav_links_descendant_nodes -%}
+      {%- endif -%}
+      {%- if nav_links_child_nodes.size >= 1 -%}
+        <a href="#" class="nav-list-expander"><svg viewBox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a>
+      {%- endif -%}
+      <a href="{{ node.url | absolute_url }}" class="nav-list-link{% if nav_page_path contains nav_links_path %} active{% endif %}">{{ node.title }}</a>
+      {%- if nav_links_child_nodes.size >= 1 -%}
+        {%- include nav_links.html nodes=nav_links_child_nodes ancestors=nav_links_ancestors path=nav_links_path -%}
+      {%- endif -%}
+    </li>
+  {%- endfor -%}
+</ul>
+
+{%- assign nav_links_child_nodes = nil -%}
+{%- assign nav_links_item = nil -%}
+{%- assign nav_links_ancestry = nil -%}
+{%- assign nav_links_path = nil -%}

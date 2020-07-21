@@ -2,6 +2,8 @@
 layout: table_wrappers
 ---
 
+{% include nav_init.html %}
+
 <!DOCTYPE html>
 
 <html lang="{{ site.lang | default: 'en-US' }}">
@@ -48,7 +50,8 @@ layout: table_wrappers
       </a>
     </div>
     <nav role="navigation" aria-label="Main" id="site-nav" class="site-nav">
-      {% include nav.html %}
+      {%- assign nav_ancestor_nodes = "" | split: "X" -%}
+      {%- include nav_links.html nodes=nav_top_nodes ancestors=nav_ancestor_nodes path="^" -%}
     </nav>
     <footer class="site-footer">
       This site uses <a href="https://github.com/pmarsceill/just-the-docs">Just the Docs</a>, a documentation theme for Jekyll.
@@ -84,21 +87,10 @@ layout: table_wrappers
       {% endif %}
     </div>
     <div id="main-content-wrap" class="main-content-wrap">
-      {% unless page.url == "/" %}
-        {% if page.parent %}
-          <nav aria-label="Breadcrumb" class="breadcrumb-nav">
-            <ol class="breadcrumb-nav-list">
-              {% if page.grand_parent %}
-                <li class="breadcrumb-nav-list-item"><a href="{{ first_level_url }}">{{ page.grand_parent }}</a></li>
-                <li class="breadcrumb-nav-list-item"><a href="{{ second_level_url }}">{{ page.parent }}</a></li>
-              {% else %}
-                <li class="breadcrumb-nav-list-item"><a href="{{ first_level_url }}">{{ page.parent }}</a></li>
-              {% endif %}
-              <li class="breadcrumb-nav-list-item"><span>{{ page.title }}</span></li>
-            </ol>
-          </nav>
-        {% endif %}
-      {% endunless %}
+      {% if page.parent and page.url != "/" %}
+        {% include nav_crumbs.html %}
+      {% endif %}
+      
       <div id="main-content" class="main-content" role="main">
         {% if site.heading_anchors != false %}
           {% include vendor/anchor_headings.html html=content beforeHeading="true" anchorBody="<svg viewBox=\"0 0 16 16\" aria-hidden=\"true\"><use xlink:href=\"#svg-link\"></use></svg>" anchorClass="anchor-heading" %}
@@ -106,18 +98,9 @@ layout: table_wrappers
           {{ content }}
         {% endif %}
 
-        {% if page.has_children == true and page.has_toc != false %}
-          <hr>
-          <h2 class="text-delta">Table of contents</h2>
-          <ul>
-            {%- assign children_list = pages_list | where: "parent", page.title | where: "grand_parent", page.parent -%}
-            {% for child in children_list %}
-              <li>
-                <a href="{{ child.url | absolute_url }}">{{ child.title }}</a>{% if child.summary %} - {{ child.summary }}{% endif %}
-              </li>
-            {% endfor %}
-          </ul>
-        {% endif %}
+        {% unless page.has_toc == false %}
+          {% include nav_toc.html %}
+        {% endunless %}
 
         {% if site.footer_content != nil or site.last_edit_timestamp or site.gh_edit_link %}
           <hr>
@@ -151,7 +134,36 @@ layout: table_wrappers
             {% endif %}
           </footer>
         {% endif %}
+        
+        {%- if site.url contains "localhost" -%}
+        {% comment %}
+          The following debug code requires a plugin:
+          
+          Copied from http://www.twisterrob.net/blog/2015/06/Jekyll-hacks-for-development.html#debugging-liquid
+          
+          'debug': Error: private method `new' called for Jekyll::Tags::HighlightBlock:Class
+          'dump_html', 'dump_text', 'dump_console': work OK
+          
+          To activate debug output at the bottom of each page:
+          
+          {% assign debug = "nav_parenthood,nav_top_nodes" %}
 
+        {% endcomment %}
+        
+          {% assign debug_options = debug | split: "," %}
+          {% for debug_option in debug_options %}
+          {% case debug_option %}
+            {% when "nav_parenthood" %}
+              {% for item in nav_parenthood %}
+                {{ item.name | dump_html: "nav_parenthood" }}
+                {{ item.items | map: "name" | dump_html }}
+              {% endfor %}
+            {% when "nav_top_nodes" %}
+              {{ nav_top_nodes | map: "name" | dump_html: "nav_top_nodes" }}
+          {% endcase %}
+          {% endfor %}
+        {% endif %}
+        
       </div>
     </div>
 

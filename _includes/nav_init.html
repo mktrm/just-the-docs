@@ -1,0 +1,23 @@
+{%- comment -%}
+  {% include nav_init.html %}
+  - assigns nav_top_nodes an unsorted array of pages
+  - path_string lists the index of the page at each navigation level
+    ('^' at the start of the string makes 'contains' equivalent to 'extends')
+{%- endcomment -%}
+
+{%- assign nav_nodes = site.html_pages | where_exp: "item", "item.nav_exclude != true" -%}
+
+{%- assign nav_top_nodes = nav_nodes | where_exp: "item", "item.parent == nil" -%}
+
+{%- assign nav_parenthood = nav_nodes | group_by: "parent" | sort: "name" -%}
+
+{%- if site.nav_sort == 'case_insensitive' -%}
+  {%- assign nav_top_nodes = nav_top_nodes | sort_natural: "title" -%}
+  {%- assign nav_parenthood = nav_parenthood | sort_natural: "name" -%}
+{%- else -%}
+  {%- assign nav_top_nodes = nav_top_nodes | sort: "title" -%}
+  {%- assign nav_parenthood = nav_parenthood | sort: "name" -%}
+{%- endif -%}
+
+{%- assign nav_ancestor_nodes = "" | split: "X" -%}
+{%- include nav_paths.html nodes=nav_top_nodes ancestors=nav_ancestor_nodes path="^" -%}
