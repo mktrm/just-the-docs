@@ -1,15 +1,14 @@
 {%- comment -%}
-  {% include nav_toc.html %}
-  - outputs a table of contents with links to child pages, if there are any
-  - deletes nav_toc_*
+  {% include nav_toc.html nodes=array %}
+  - outputs a table of contents with links to the nodes, unless empty
 {%- endcomment -%}
 
-{%- if nav_page_child_nodes.size >= 1 -%}
+{%- if include.nodes.size >= 1 -%}
   <hr>
   <h2 class="text-delta">Table of contents</h2>
   <ul>
-    {%- include nav_sort.html nodes=nav_page_child_nodes -%}
-    {%- for node in nav_sort_nodes -%}
+    {%- include nav_sorted.html nodes=include.nodes -%}
+    {%- for node in nav_sorted -%}
       <li>
         <a href="{{ node.url | absolute_url }}">{{ node.title }}</a>
         {%- if node.summary -%}

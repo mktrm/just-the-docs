@@ -1,0 +1,19 @@
+{%- comment -%}
+  {% include nav_sorted.html nodes=nodes %}
+  - assigns nav_sorted an array formed by sorting the nodes
+  - deletes nav_ordered, nav_unordered
+{%- endcomment -%}
+
+{%- assign nav_ordered = include.nodes | where_exp: "item", "item.nav_order != nil" -%}
+{%- assign nav_unordered = include.nodes | where_exp: "item", "item.nav_order == nil" -%}
+{%- if site.nav_sort == 'case_insensitive' -%}
+  {%- assign nav_ordered = nav_ordered | sort_natural: "nav_order" -%}
+  {%- assign nav_unordered = nav_unordered | sort_natural: "title" -%}
+{%- else -%}
+  {%- assign nav_ordered = nav_ordered | sort: "nav_order" -%}
+  {%- assign nav_unordered = nav_unordered | sort: "title" -%}
+{%- endif -%}
+{%- assign nav_sorted = nav_ordered | concat: nav_unordered -%}
+
+{%- assign nav_ordered = nil -%}
+{%- assign nav_unordered = nil -%}

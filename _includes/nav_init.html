@@ -1,23 +1,19 @@
 {%- comment -%}
   {% include nav_init.html %}
-  - assigns nav_top_nodes an unsorted array of pages
-  - path_string lists the index of the page at each navigation level
-    ('^' at the start of the string makes 'contains' equivalent to 'extends')
+  - assigns nav_nodes
+  - assigns nav_top_nodes
+  - assigns nav_parenthood
+  - assigns nav_page_ancestors
+  - assigns nav_page_path
+  - assigns nav_page_children
+  - deletes nav_ancestors
 {%- endcomment -%}
 
 {%- assign nav_nodes = site.html_pages | where_exp: "item", "item.nav_exclude != true" -%}
-
 {%- assign nav_top_nodes = nav_nodes | where_exp: "item", "item.parent == nil" -%}
+{%- assign nav_parenthood = nav_nodes | group_by: "parent" -%}
 
-{%- assign nav_parenthood = nav_nodes | group_by: "parent" | sort: "name" -%}
+{%- assign nav_ancestors = "" | split: "X" -%}
+{%- include nav_page.html nodes=nav_top_nodes ancestors=nav_ancestors path="^" -%}
 
-{%- if site.nav_sort == 'case_insensitive' -%}
-  {%- assign nav_top_nodes = nav_top_nodes | sort_natural: "title" -%}
-  {%- assign nav_parenthood = nav_parenthood | sort_natural: "name" -%}
-{%- else -%}
-  {%- assign nav_top_nodes = nav_top_nodes | sort: "title" -%}
-  {%- assign nav_parenthood = nav_parenthood | sort: "name" -%}
-{%- endif -%}
-
-{%- assign nav_ancestor_nodes = "" | split: "X" -%}
-{%- include nav_paths.html nodes=nav_top_nodes ancestors=nav_ancestor_nodes path="^" -%}
+{%- assign nav_ancestors = nil -%}

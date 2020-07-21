@@ -1,0 +1,25 @@
+{%- comment -%}
+  {% include nav_children.html node=node ancestors=array %}
+  - uses nav_parenthood
+  - assigns nav_children a filtered array of children of the node
+  - deletes nav_* local variables
+{%- endcomment -%}
+
+{%- assign nav_children = nav_parenthood | where: "name", include.node.title | map: "items" | first -%}
+{%- assign nav_children_grandparent_titles = nav_children | map: "grand_parent" -%}
+{%- assign nav_children_ancestor_titles = nav_children | map: "ancestor" -%}
+{%- assign nav_titles = nav_children_grandparent_titles | concat: nav_children_ancestor_titles | uniq -%}
+{%- if nav_titles.size >= 2 -%}
+  {%- assign nav_grandchildren = nav_children | where: "grand_parent", include.node.parent -%}
+  {%- assign nav_ancestors_titles = include.ancestors | map: "title" -%}
+  {%- assign nav_descendants = nav_children
+        | where_exp: "item", "nav_ancestors_titles contains item.ancestor" -%}
+  {%- assign nav_children = nav_grandchildren | concat: nav_descendants -%}
+{%- endif -%}
+
+{%- assign nav_children_grandparent_titles = nil -%}
+{%- assign nav_children_ancestor_titles = nil -%}
+{%- assign nav_titles = nil -%}
+{%- assign nav_grandchildren = nil -%}
+{%- assign nav_ancestors_titles = nil -%}
+{%- assign nav_descendants = nil -%}

@@ -88,7 +88,7 @@ layout: table_wrappers
     </div>
     <div id="main-content-wrap" class="main-content-wrap">
       {% if page.parent and page.url != "/" %}
-        {% include nav_crumbs.html %}
+        {% include nav_crumbs.html nodes=nav_page_ancestors %}
       {% endif %}
       
       <div id="main-content" class="main-content" role="main">
@@ -99,7 +99,7 @@ layout: table_wrappers
         {% endif %}
 
         {% unless page.has_toc == false %}
-          {% include nav_toc.html %}
+          {% include nav_toc.html nodes=nav_page_children %}
         {% endunless %}
 
         {% if site.footer_content != nil or site.last_edit_timestamp or site.gh_edit_link %}

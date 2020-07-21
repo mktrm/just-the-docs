@@ -1,0 +1,27 @@
+{%- comment -%}
+  {% include nav_page.html nodes=unsorted_array ancestors=array path=string %}
+  - uses nav_parenthood
+  - assigns nav_page_ancestors
+  - assigns nav_page_path
+  - assigns nav_page_children
+  - deletes nav_* local variables
+{%- endcomment -%}
+
+{%- include nav_sorted.html nodes=include.nodes -%}
+{%- for node in nav_sorted -%}
+  {%- include nav_children.html node=node ancestors=include.ancestors -%}
+  {%- assign nav_path =  include.path | append: " " | append: forloop.index -%}
+  {%- if node.url == page.url -%}
+    {%- assign nav_page_ancestors = include.ancestors -%}
+    {%- assign nav_page_path = nav_path -%}
+    {%- assign nav_page_children = nav_children -%}
+  {%- endif -%}
+  {%- if nav_children.size >= 1 -%}
+    {%- assign nav_ancestors = include.ancestors | push: node -%}
+    {%- include nav_page.html nodes=nav_children ancestors=nav_ancestors path=nav_path -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- assign nav_children = nil -%}
+{%- assign nav_ancestors = nil -%}
+{%- assign nav_path = nil -%}
