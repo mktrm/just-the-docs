@@ -5,4 +5,6 @@ parent: Tests
 ---
 # B
 
-Level 1
+```yaml
+parent: Tests
+```

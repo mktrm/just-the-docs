@@ -6,4 +6,7 @@ ancestor: Y
 ---
 # U
 
-Level 4
+```yaml
+parent: T
+ancestor: Y
+```

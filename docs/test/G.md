@@ -5,6 +5,6 @@ parent: F
 ---
 # G
 
-Great-grandchild of [B](../B)
-
-Level 4
+```yaml
+parent: F
+```

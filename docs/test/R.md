@@ -6,4 +6,7 @@ nav_order: "10"
 ---
 # R
 
-`nav_order: "10"`
+```yaml
+parent: O
+nav_order: "10"
+```

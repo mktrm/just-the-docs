@@ -1,7 +1,8 @@
 {%- comment -%}
-  {% include nav_sorted.html nodes=nodes %}
+  {%- include nav_sorted.html
+        nodes=nodes -%}
   - assigns nav_sorted an array formed by sorting the nodes
-  - deletes nav_ordered, nav_unordered
+  - deletes local nav_* variables
 {%- endcomment -%}
 
 {%- assign nav_ordered = include.nodes | where_exp: "item", "item.nav_order != nil" -%}

@@ -3,7 +3,12 @@ layout: default
 title: U
 parent: T
 ancestor: X
+section: x
 ---
 # U
 
-Level 4
+```yaml
+parent: T
+ancestor: X
+section: x
+```

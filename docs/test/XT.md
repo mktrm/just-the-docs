@@ -6,4 +6,7 @@ ancestor: X
 ---
 # T
 
-Level 3
+```yaml
+parent: S
+ancestor: X
+```

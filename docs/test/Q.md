@@ -6,4 +6,7 @@ nav_order: "2"
 ---
 # Q
 
-`nav_order: "2"`
+```yaml
+parent: O
+nav_order: "2"
+```

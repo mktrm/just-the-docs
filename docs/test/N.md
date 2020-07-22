@@ -6,4 +6,7 @@ nav_order: 10
 ---
 # N
 
-`nav_order: 10`
+```yaml
+parent: K
+nav_order: 10
+```

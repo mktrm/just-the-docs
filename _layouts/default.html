@@ -2,7 +2,7 @@
 layout: table_wrappers
 ---
 
-{% include nav_init.html %}
+{%- include nav_init.html %}
 
 <!DOCTYPE html>
 
@@ -51,7 +51,10 @@ layout: table_wrappers
     </div>
     <nav role="navigation" aria-label="Main" id="site-nav" class="site-nav">
       {%- assign nav_ancestor_nodes = "" | split: "X" -%}
-      {%- include nav_links.html nodes=nav_top_nodes ancestors=nav_ancestor_nodes path="^" -%}
+      {%- include nav_links.html
+            nodes=nav_top_nodes
+            ancestors=nav_ancestor_nodes
+            path="^" -%}
     </nav>
     <footer class="site-footer">
       This site uses <a href="https://github.com/pmarsceill/just-the-docs">Just the Docs</a>, a documentation theme for Jekyll.
@@ -88,7 +91,8 @@ layout: table_wrappers
     </div>
     <div id="main-content-wrap" class="main-content-wrap">
       {% if page.parent and page.url != "/" %}
-        {% include nav_crumbs.html nodes=nav_page_ancestors %}
+        {% include nav_crumbs.html
+              nodes=nav_page_ancestors %}
       {% endif %}
       
       <div id="main-content" class="main-content" role="main">
@@ -99,7 +103,8 @@ layout: table_wrappers
         {% endif %}
 
         {% unless page.has_toc == false %}
-          {% include nav_toc.html nodes=nav_page_children %}
+          {% include nav_toc.html
+                nodes=nav_page_children %}
         {% endunless %}
 
         {% if site.footer_content != nil or site.last_edit_timestamp or site.gh_edit_link %}
@@ -137,7 +142,7 @@ layout: table_wrappers
         
         {%- if site.url contains "localhost" -%}
         {% comment %}
-          The following debug code requires a plugin:
+          The following debug code requires a locally installed plugin:
           
           Copied from http://www.twisterrob.net/blog/2015/06/Jekyll-hacks-for-development.html#debugging-liquid
           
@@ -145,7 +150,6 @@ layout: table_wrappers
           'dump_html', 'dump_text', 'dump_console': work OK
           
           To activate debug output at the bottom of each page:
-          
           {% assign debug = "nav_parenthood,nav_top_nodes" %}
 
         {% endcomment %}

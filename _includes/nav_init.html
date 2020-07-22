@@ -1,12 +1,11 @@
 {%- comment -%}
-  {% include nav_init.html %}
-  - assigns nav_nodes
+  {%- include nav_init.html -%}
   - assigns nav_top_nodes
   - assigns nav_parenthood
   - assigns nav_page_ancestors
   - assigns nav_page_path
   - assigns nav_page_children
-  - deletes nav_ancestors
+  - deletes local nav_* variables
 {%- endcomment -%}
 
 {%- assign nav_nodes = site.html_pages | where_exp: "item", "item.nav_exclude != true" -%}
@@ -14,6 +13,9 @@
 {%- assign nav_parenthood = nav_nodes | group_by: "parent" -%}
 
 {%- assign nav_ancestors = "" | split: "X" -%}
+{%- assign nav_page_ancestors = nil -%}
+{%- assign nav_page_path = nil -%}
+{%- assign nav_page_children = nil -%}
 {%- include nav_page.html nodes=nav_top_nodes ancestors=nav_ancestors path="^" -%}
 
 {%- assign nav_ancestors = nil -%}

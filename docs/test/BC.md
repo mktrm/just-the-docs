@@ -5,6 +5,6 @@ parent: B
 ---
 # C
 
-Child of [B](../B)
-
-Level 2
+```yaml
+parent: B
+```

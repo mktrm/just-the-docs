@@ -1,7 +1,10 @@
 {%- comment -%}
-  {% include nav_links.html nodes=array ancestors=array path=string %}
+  {%- include nav_links.html 
+        nodes=array 
+        ancestors=array 
+        path=string 
+        section=string -%}
   - uses nav_page_path
-  - uses nav_parenthood
   - outputs links for the nodes and their children
   - deletes nav_* local variables
 {%- endcomment -%}
@@ -9,7 +12,10 @@
 <ul class="nav-list">
   {%- include nav_sorted.html nodes=include.nodes -%}
   {%- for node in nav_sorted -%}
-    {%- include nav_children.html node=node ancestors=include.ancestors -%}
+    {%- include nav_children.html 
+          node=node
+          ancestors=include.ancestors
+          section=include.section -%}
     {%- assign nav_path = include.path | append: " " | append: forloop.index -%}
     {%- assign nav_active = false -%}
     {%- if nav_page_path contains nav_path -%}
@@ -22,7 +28,17 @@
       <a href="{{ node.url | absolute_url }}" class="nav-list-link{% if nav_active %} active{% endif %}">{{ node.title }}</a>
       {%- if nav_children.size >= 1 -%}
         {%- assign nav_ancestors =  include.ancestors | push: node -%}
-        {%- include nav_links.html nodes=nav_children ancestors=nav_ancestors path=nav_path -%}
+        {%- assign nav_section = include.section -%}
+        {%- if include.section -%}
+          {%- assign nav_section = include.section -%}
+        {%- else -%}
+          {%- assign nav_section = node.section -%}
+        {%- endif -%}
+        {%- include nav_links.html
+              nodes=nav_children
+              ancestors=nav_ancestors
+              path=nav_path
+              section=nav_section -%}
       {%- endif -%}
     </li>
   {%- endfor -%}
@@ -31,3 +47,4 @@
 {%- assign nav_children = nil -%}
 {%- assign nav_ancestors = nil -%}
 {%- assign nav_path = nil -%}
+{%- assign nav_section = nil -%}

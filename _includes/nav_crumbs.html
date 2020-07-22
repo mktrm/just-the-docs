@@ -1,5 +1,6 @@
 {%- comment -%}
-  {% include nav_crumbs.html nodes=array %}
+  {%- include nav_crumbs.html
+        nodes=array -%}
   - outputs breadcrumb navigation for the nodes and the current page
 {%- endcomment -%}
 
@@ -9,7 +10,7 @@
     <li class="breadcrumb-nav-list-item">
       <a href="{{ node.url | absolute_url }}">{{ node.title }}</a>
     </li>
-    {% endfor %}
+    {%- endfor -%}
     <li class="breadcrumb-nav-list-item">
       <span>{{ page.title }}</span>
     </li>

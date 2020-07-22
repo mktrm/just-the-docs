@@ -5,4 +5,6 @@ parent: Y
 ---
 # S
 
-Level 2
+```yaml
+parent: Y
+```

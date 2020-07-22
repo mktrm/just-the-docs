@@ -5,9 +5,11 @@ nav_order: 999
 ---
 # Tests
 
-The sections below this page illustrate how to use the various navigation options.
+The sections below this page in the navigation illustrate how various navigation fields can be used to deal with duplicate parent titles and 
 
 ## Parents with the same title
+
+The children of [C](./AC) and [C](./BC) distinguish which between their potential parents by specifying grandparents.
 
 A
 - C
@@ -19,7 +21,11 @@ B
   - F
     - G
 
+For deeper navigation structures, see the examples [below](#sections-using-the-same-titles-internally).
+
 ## Different navigation orders
+
+The `nav_order` fields of the children of the same parent need to be all strings or all numbers. Children with no `nav_order` are sorted by their titles.
 
 K
 - N
@@ -32,6 +38,8 @@ O
 - P
 
 ## Sections using the same titles internally
+
+When different parts of a website use the same page titles for navigation, reference to parents have to be distinguished by adding `section` and/or `ancestor` fields.
 
 X
 - S

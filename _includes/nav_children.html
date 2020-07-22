@@ -1,25 +1,35 @@
 {%- comment -%}
-  {% include nav_children.html node=node ancestors=array %}
+  {%- include nav_children.html
+      node=node
+      ancestors=array
+      section=string_or_nil -%}
   - uses nav_parenthood
-  - assigns nav_children a filtered array of children of the node
+  - assigns nav_children all children with matching grand_parent, section, and ancestor fields
   - deletes nav_* local variables
 {%- endcomment -%}
 
-{%- assign nav_children = nav_parenthood | where: "name", include.node.title | map: "items" | first -%}
-{%- assign nav_children_grandparent_titles = nav_children | map: "grand_parent" -%}
-{%- assign nav_children_ancestor_titles = nav_children | map: "ancestor" -%}
-{%- assign nav_titles = nav_children_grandparent_titles | concat: nav_children_ancestor_titles | uniq -%}
-{%- if nav_titles.size >= 2 -%}
-  {%- assign nav_grandchildren = nav_children | where: "grand_parent", include.node.parent -%}
-  {%- assign nav_ancestors_titles = include.ancestors | map: "title" -%}
-  {%- assign nav_descendants = nav_children
-        | where_exp: "item", "nav_ancestors_titles contains item.ancestor" -%}
-  {%- assign nav_children = nav_grandchildren | concat: nav_descendants -%}
-{%- endif -%}
-
-{%- assign nav_children_grandparent_titles = nil -%}
-{%- assign nav_children_ancestor_titles = nil -%}
-{%- assign nav_titles = nil -%}
-{%- assign nav_grandchildren = nil -%}
+{%- assign nav_children = "" | split: "X" -%}
+{%- assign nav_candidates = nav_parenthood | where: "name", include.node.title | map: "items" | first -%}
 {%- assign nav_ancestors_titles = nil -%}
-{%- assign nav_descendants = nil -%}
+{%- for child in nav_candidates -%}
+  {%- assign nav_child_ok = true -%}
+  {%- if child.grand_parent and child.grand_parent != include.node.parent -%}
+    {%- assign nav_child_ok = false -%}
+  {%- endif -%}
+  {%- if child.section and include.node.section and child.section != include.node.section -%}
+    {%- assign nav_child_ok = false -%}
+  {%- endif -%}
+  {%- if child.ancestor -%}
+    {%- assign nav_ancestors_titles = include.ancestors | map: "title" -%}
+    {%- unless nav_ancestors_titles contains child.ancestor -%}
+      {%- assign nav_child_ok = false -%}
+    {%- endunless -%}
+  {%- endif -%}
+  {%- if nav_child_ok -%}
+    {%- assign nav_children = nav_children | push: child -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- assign nav_candidates = nil -%}
+{%- assign nav_child_ok = nil -%}
+{%- assign nav_ancestors_titles = nil -%}

@@ -2,7 +2,11 @@
 layout: default
 title: X
 parent: Tests
+section: x
 ---
 # X
 
-Level 1
+```yaml
+parent: Tests
+section: x
+```
