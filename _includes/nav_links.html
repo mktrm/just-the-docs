@@ -17,9 +17,10 @@
           ancestors=include.ancestors
           section=include.section -%}
     {%- assign nav_path = include.path | append: " " | append: forloop.index -%}
-    {%- assign nav_active = false -%}
     {%- if nav_page_path contains nav_path -%}
       {%- assign nav_active = true -%}
+    {%- else -%}
+      {%- assign nav_active = false -%}
     {%- endif -%}
     <li class="nav-list-item{% if nav_active %} active{% endif %}">
       {%- if nav_children.size >= 1 -%}

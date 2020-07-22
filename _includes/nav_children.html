@@ -8,8 +8,8 @@
   - deletes nav_* local variables
 {%- endcomment -%}
 
-{%- assign nav_children = "" | split: "X" -%}
 {%- assign nav_candidates = nav_parenthood | where: "name", include.node.title | map: "items" | first -%}
+{%- assign nav_children = "" | split: "X" -%}
 {%- assign nav_ancestors_titles = nil -%}
 {%- for child in nav_candidates -%}
   {%- assign nav_child_ok = true -%}
@@ -20,7 +20,9 @@
     {%- assign nav_child_ok = false -%}
   {%- endif -%}
   {%- if child.ancestor -%}
-    {%- assign nav_ancestors_titles = include.ancestors | map: "title" -%}
+    {%- unless nav_ancestors_titles -%}
+      {%- assign nav_ancestors_titles = include.ancestors | map: "title" -%}
+    {%- endunless -%}
     {%- unless nav_ancestors_titles contains child.ancestor -%}
       {%- assign nav_child_ok = false -%}
     {%- endunless -%}
