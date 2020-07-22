@@ -22,15 +22,15 @@ nav_order: 5
 
 The main navigation for your Just the Docs site is at the left side of the page on large screens, and at the top (behind a tap) on small screens. It can be structured to accommodate a multi-level menu of unlimited depth: pages can always have child pages.
 
-By default, links to all pages appear in the main navigation at the top level, ordered alphabetically by page title. By adding fields to the YAML front matter of individual pages, the [order](#ordering-pages) of the links can be changed, links can be [excluded](#excluding-pages), and links can be displayed as [child pages](#pages-with-children).
+By default, links to all pages appear in the main navigation at the top level, ordered alphabetically by page title. By adding fields to the YAML front matter of individual pages, you can [change their order](#ordering-pages), [exclude pages](#excluding-pages), and [display pages as children ](#pages-with-children) to any depth.
 
-For the construction of the navigation display to work (and to avoid potential confusion when browsing) page titles need to satisfy the following requirements:
+For the construction of the navigation display to work (and to avoid potential confusion when browsing) your page titles need to satisfy the following requirements:
 
-* The titles of the top-level pages must be different.
-* The titles of child pages with the same parent page must be different.
-* The title of a child page must be different from the titles of all its ancestors (its parent page, any grandparent page, etc.).
+* Top-level pages cannot have the same title.
+* Children of the same parent cannot have the same title.
+* A child cannot have the same title as its parent or any of its ancestors.
 
-Pages can have the same title whenever they have different parent pages. Moreover, parent pages with the same title can be distinguished by specifying _their_ parent pages, or their more distant ancestors. This allows different _sections_ of the navigation to use the same titles: the title of the top page of each section can be used as the distinguishing ancestor.
+If two parents have the same title, but different grandparents, you can use the grandparent titles to distinguish between the parents. For deeper navigation structures, you can also use the titles of more remote ancestors. And if you want the same navigation structure in different parts of the website, you can add section identifiers (which are not displayed).
 
 Additional navigation features include [auxiliary links](#auxiliary-links) at the top of the page, and in-page navigation with an automatically-generated [table of contents](#in-page-navigation-with-table-of-contents).
 
@@ -116,7 +116,7 @@ nav_order: 2
 ---
 ```
 
-Here we're setting up the UI Components landing page that is available at URL `/docs/ui-components`, which is ordered second in the main navigation. (Note for users of previous versions of Just the Docs: parent pages no longer need the `has_children` field.)
+Here we're setting up the UI Components landing page that is available at URL `/docs/ui-components`, which is ordered second in the main navigation. (Note for users of previous versions of Just the Docs: the `has_children` field is now redundant, and ignored.)
 
 ### Child pages
 {: .text-gamma }
@@ -196,7 +196,10 @@ This would create the following navigation structure:
 +-- ..
 ```
 
-If no two pages have the same title, the `parent` fields alone are sufficient to determine the navigation hierarchy. When grandchildren in different sections have parent pages with the same title, however, the intended parents need to be distinguished. This can sometimes be done using `grand_parent` fields (which are otherwise optional). The `grand_parent` field needs to be the same as the `parent` field of a potential parent page.
+If no two pages on your website have the same `title`, you only need to set the `parent` titles to fix the hierarchy. You can also have the same `title` on pages that have no children, provided that they have different `parent` titles.
+
+If two parents have the same `title`, but different grandparents, you can set their `grand_parent` titles to distinguish between their parents. The `grand_parent` title needs to be the same as the `parent` of the `parent`.
+
 
 #### Example
 {: .no_toc }
@@ -211,7 +214,9 @@ nav_order: 1
 ---
 ```
 
-The optional `ancestor` field generalises the `grand_parent` field to refer to pages two or more levels up. See the navigation [test pages]({{ site.baseurl }}{% link docs/test/index.md %}) for examples of the use of `ancestor`.
+For resolving parents in deeper navigation structures, you can set the `ancestor` field of a page to the title of any page above its `parent` page.  
+
+If you want the navigation structure in different parts of your website to look the same, you can add the title of the top page of each part as the `ancestor` of all its sub-pages. Alternatively, you can choose an arbitrary number or string for each part, and add it as the `section` field on all the pages of that part. Using `section` allows you to change the titles of top pages more easily than when using `ancestor`, but you need to be careful not to use the same `section` value for different parts. See the navigation [test pages]({{ site.baseurl }}{% link docs/test/index.md %}) for examples of the use of `ancestor` and `section`.
 
 ---
 
