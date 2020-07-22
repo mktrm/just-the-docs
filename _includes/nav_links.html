@@ -28,7 +28,6 @@
       <a href="{{ node.url | absolute_url }}" class="nav-list-link{% if nav_active %} active{% endif %}">{{ node.title }}</a>
       {%- if nav_children.size >= 1 -%}
         {%- assign nav_ancestors =  include.ancestors | push: node -%}
-        {%- assign nav_section = include.section -%}
         {%- if include.section -%}
           {%- assign nav_section = include.section -%}
         {%- else -%}
