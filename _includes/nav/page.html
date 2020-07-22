@@ -1,5 +1,5 @@
 {%- comment -%}
-  {%- include nav_page.html 
+  {%- include nav/page.html 
         nodes=array 
         ancestors=array 
         path=string 
@@ -11,9 +11,9 @@
 {%- endcomment -%}
 
 {%- unless nav_page_ancestors and nav_page_path and nav_page_children -%}
-  {%- include nav_sorted.html nodes=include.nodes -%}
+  {%- include nav/sorted.html nodes=include.nodes -%}
   {%- for node in nav_sorted -%}
-    {%- include nav_children.html 
+    {%- include nav/children.html 
           node=node
           ancestors=include.ancestors
           section=include.section -%}
@@ -32,7 +32,7 @@
       {%- else -%}
         {%- assign nav_section = node.section -%}
       {%- endif -%}
-      {%- include nav_page.html
+      {%- include nav/page.html
             nodes=nav_children
             ancestors=nav_ancestors
             path=nav_path

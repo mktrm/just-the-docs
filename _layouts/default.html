@@ -2,7 +2,7 @@
 layout: table_wrappers
 ---
 
-{%- include nav_init.html %}
+{%- include nav/init.html %}
 
 <!DOCTYPE html>
 
@@ -51,7 +51,7 @@ layout: table_wrappers
     </div>
     <nav role="navigation" aria-label="Main" id="site-nav" class="site-nav">
       {%- assign nav_ancestor_nodes = "" | split: "X" -%}
-      {%- include nav_links.html
+      {%- include nav/links.html
             nodes=nav_top_nodes
             ancestors=nav_ancestor_nodes
             path="^" -%}
@@ -91,7 +91,7 @@ layout: table_wrappers
     </div>
     <div id="main-content-wrap" class="main-content-wrap">
       {% if page.parent and page.url != "/" %}
-        {% include nav_crumbs.html
+        {% include nav/crumbs.html
               nodes=nav_page_ancestors %}
       {% endif %}
       
@@ -103,7 +103,7 @@ layout: table_wrappers
         {% endif %}
 
         {% unless page.has_toc == false %}
-          {% include nav_toc.html
+          {% include nav/toc.html
                 nodes=nav_page_children %}
         {% endunless %}
 

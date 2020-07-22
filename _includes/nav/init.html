@@ -1,5 +1,5 @@
 {%- comment -%}
-  {%- include nav_init.html -%}
+  {%- include nav/init.html -%}
   - assigns nav_top_nodes
   - assigns nav_parenthood
   - assigns nav_page_ancestors
@@ -16,6 +16,6 @@
 {%- assign nav_page_ancestors = nil -%}
 {%- assign nav_page_path = nil -%}
 {%- assign nav_page_children = nil -%}
-{%- include nav_page.html nodes=nav_top_nodes ancestors=nav_ancestors path="^" -%}
+{%- include nav/page.html nodes=nav_top_nodes ancestors=nav_ancestors path="^" -%}
 
 {%- assign nav_ancestors = nil -%}
