@@ -66,6 +66,9 @@ aux_links_new_tab: false
 # nav_sort: case_insensitive # N.B. numbers are sorted lexicographically
 nav_sort: case_sensitive # Capital letters sorted before lowercase, numbers by value
 
+# Display navigation expanders
+nav_expanders: true
+
 # Footer content
 # appears at the bottom of every page's main content
 

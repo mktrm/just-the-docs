@@ -23,22 +23,24 @@
       {%- assign nav_active = false -%}
     {%- endif -%}
     <li class="nav-list-item{% if nav_active %} active{% endif %}">
-      {%- if nav_children.size >= 1 -%}
+      {%- if nav_children.size >= 1 and site.nav_expanders != false -%}
         <a href="#" class="nav-list-expander"><svg viewBox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a>
       {%- endif -%}
       <a href="{{ node.url | absolute_url }}" class="nav-list-link{% if nav_active %} active{% endif %}">{{ node.title }}</a>
       {%- if nav_children.size >= 1 -%}
-        {%- assign nav_ancestors =  include.ancestors | push: node -%}
-        {%- if include.section -%}
-          {%- assign nav_section = include.section -%}
-        {%- else -%}
-          {%- assign nav_section = node.section -%}
+        {%- if site.nav_expanders != false or nav_active -%}
+          {%- assign nav_ancestors =  include.ancestors | push: node -%}
+          {%- if include.section -%}
+            {%- assign nav_section = include.section -%}
+          {%- else -%}
+            {%- assign nav_section = node.section -%}
+          {%- endif -%}
+          {%- include nav/links.html
+                nodes=nav_children
+                ancestors=nav_ancestors
+                path=nav_path
+                section=nav_section -%}
         {%- endif -%}
-        {%- include nav/links.html
-              nodes=nav_children
-              ancestors=nav_ancestors
-              path=nav_path
-              section=nav_section -%}
       {%- endif -%}
     </li>
   {%- endfor -%}

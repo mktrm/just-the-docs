@@ -118,6 +118,14 @@ nav_order: 2
 
 Here we're setting up the UI Components landing page that is available at URL `/docs/ui-components`, which is ordered second in the main navigation. (Note for users of previous versions of Just the Docs: the `has_children` field is now redundant, and ignored.)
 
+By default, the navigation links for all pages with children come with an expander. When you click the expander, the display of the children is toggled, so you can expand or collapse all the children displays, regardless of which page is currently active. To turn off the display of expanders, add the following to `_config.yml`:
+
+```yaml
+nav_expanders: false
+```
+
+(Turning the expanders off also reduces the amount of code for navigation links on each page, which could be significant on sites that include a large number of pages in the navigation.)
+
 ### Child pages
 {: .text-gamma }
 
