@@ -50,3 +50,7 @@ Y
 - S
   - T
     - U
+
+## Navigation notes
+
+The [notes](./about) explain the background and implementation of the current proposal.
