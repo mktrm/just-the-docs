@@ -65,22 +65,27 @@ All the following files are in [`_includes/nav/`]. All variables assigned by the
 - called from the [default layout]
 - creates the `parenthood` grouped array based on the `parent` fields, and the `top_nodes` array
 - calls [`page`] to find where the current page is located in the navigation hierarchy
+  - first quickly, using heuristics based on the directory hierarchy
+  - if not found, locates the page by exhaustive search
 
 [`page`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav/_includes/nav/page.html
 
 [`page`]
 - called from [`init`]
+- when `site.nav_direct == true`: heuristic search using the directory hierarchy, may fail
+- when `site.nav_direct == false`: exhaustive search, always succeeds
 - traverses the nav hierarchy top-down until it reaches the current page, then:
-- sets `page_ancestors` to the array of its ancestors, for use by [`crumbs`]
-- sets `page_path` the string of indices leading to it, for use by [`links`]
-- sets `page_children` the array of direct children, for use by [`toc`]
+  - sets `page_ancestors` to the array of its ancestors, for use by [`crumbs`]
+  - sets `page_path` the string of indices leading to it, for use by [`links`]
+  - sets `page_children` the array of direct children, for use by [`toc`]
 - uses [`children`] and [`sorted`] to determine the children of each node
 
 [`links`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav/_includes/nav/links.html
 
 [`links`]
 - called from the [default layout]
-- traverses the entire nav hierarchy top-down, outputting an HTML link for each node
+- traverses the nav hierarchy top-down, outputting an HTML link for each node
+- when `site.nav_expanders == false`: omits nav expanders and inactive links
 - uses `page_path` to test whether each node is active
 - uses [`children`] and [`sorted`] to determine the children of each node
 
@@ -108,6 +113,22 @@ All the following files are in [`_includes/nav/`]. All variables assigned by the
 - called from [`page`] and [`links`] with an unsorted array of potential child pages
 - sets `sorted` to the result of sorting the array using the `nav_order` fields
 
+[`debug`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav/_includes/nav/debug.html
+[plugin]: https://github.com/pdmosses/just-the-docs/blob/rec-nav/_plugins/debug.rb
+
+[`debug`]
+- called from the [default layout]
+- outputs diagnostics at the bottom of all pages on `localhost`
+- activated by configuration setting `nav_debug: "..."`
+- requires a [plugin], so debug not available on GitHub Pages
+
 ## Efficiency
 
-TBA
+For quicker local testing, use the configuration option:
+
+```yaml
+nav_expanders: false
+```
+
+This option also reduces the amount of HTML generated for the sidebar,
+which can be significant on sites with large nav hierarchies.

@@ -10,33 +10,34 @@
   - deletes nav_* local variables
 {%- endcomment -%}
 
-{%- unless nav_page_ancestors and nav_page_path and nav_page_children -%}
+{%- unless nav_page_path -%}
   {%- include nav/sorted.html nodes=include.nodes -%}
   {%- for node in nav_sorted -%}
-    {%- include nav/children.html 
-          node=node
-          ancestors=include.ancestors
-          section=include.section -%}
-    {%- assign nav_path =  include.path | append: " " | append: forloop.index -%}
-    {%- if node.url == page.url -%}
-      {%- assign nav_page_ancestors = include.ancestors -%}
-      {%- assign nav_page_path = nav_path -%}
-      {%- assign nav_page_children = nav_children -%}
-      {%- break -%}
-    {%- endif -%}
-    {%- if nav_children.size >= 1 -%}
-      {%- assign nav_ancestors = include.ancestors | push: node -%}
-      {%- assign nav_section = include.section -%}
-      {%- if include.section -%}
-        {%- assign nav_section = include.section -%}
-      {%- else -%}
-        {%- assign nav_section = node.section -%}
+    {%- if nav_page_dir contains node.dir or nav_direct == false -%}
+      {%- include nav/children.html 
+            node=node
+            ancestors=include.ancestors
+            section=include.section -%}
+      {%- assign nav_path =  include.path | append: " " | append: forloop.index -%}
+      {%- if node.url == page.url -%}
+        {%- assign nav_page_ancestors = include.ancestors -%}
+        {%- assign nav_page_path = nav_path -%}
+        {%- assign nav_page_children = nav_children -%}
+        {%- break -%}
       {%- endif -%}
-      {%- include nav/page.html
-            nodes=nav_children
-            ancestors=nav_ancestors
-            path=nav_path
-            section=nav_section -%}
+      {%- if nav_children.size >= 1 -%}
+        {%- assign nav_ancestors = include.ancestors | push: node -%}
+        {%- if include.section -%}
+          {%- assign nav_section = include.section -%}
+        {%- else -%}
+          {%- assign nav_section = node.section -%}
+        {%- endif -%}
+        {%- include nav/page.html
+              nodes=nav_children
+              ancestors=nav_ancestors
+              path=nav_path
+              section=nav_section -%}
+      {%- endif -%}
     {%- endif -%}
   {%- endfor -%}
 {%- endunless -%}

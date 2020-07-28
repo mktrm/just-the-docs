@@ -16,6 +16,14 @@
 {%- assign nav_page_ancestors = nil -%}
 {%- assign nav_page_path = nil -%}
 {%- assign nav_page_children = nil -%}
+{%- assign nav_direct = true -%}
+{%- assign nav_page_dir = "/docs" | append: page.dir -%}
 {%- include nav/page.html nodes=nav_top_nodes ancestors=nav_ancestors path="^" -%}
+{%- unless nav_page_path -%}
+  {%- assign nav_direct = false -%}
+  {%- include nav/page.html nodes=nav_top_nodes ancestors=nav_ancestors path="^" -%}
+{%- endunless -%}
 
 {%- assign nav_ancestors = nil -%}
+{%- assign nav_direct = nil -%}
+{%- assign nav_page_dir = nil -%}

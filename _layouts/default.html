@@ -140,32 +140,8 @@ layout: table_wrappers
           </footer>
         {% endif %}
         
-        {%- if site.url contains "localhost" -%}
-        {% comment %}
-          The following debug code requires a locally installed plugin:
-          
-          Copied from http://www.twisterrob.net/blog/2015/06/Jekyll-hacks-for-development.html#debugging-liquid
-          
-          'debug': Error: private method `new' called for Jekyll::Tags::HighlightBlock:Class
-          'dump_html', 'dump_text', 'dump_console': work OK
-          
-          To activate debug output at the bottom of each page:
-          {% assign debug = "nav_parenthood,nav_top_nodes" %}
-
-        {% endcomment %}
-        
-          {% assign debug_options = debug | split: "," %}
-          {% for debug_option in debug_options %}
-          {% case debug_option %}
-            {% when "nav_parenthood" %}
-              {% for item in nav_parenthood %}
-                {{ item.name | dump_html: "nav_parenthood" }}
-                {{ item.items | map: "name" | dump_html }}
-              {% endfor %}
-            {% when "nav_top_nodes" %}
-              {{ nav_top_nodes | map: "name" | dump_html: "nav_top_nodes" }}
-          {% endcase %}
-          {% endfor %}
+        {%- if site.url contains "localhost" and site.nav_debug -%}
+          {%- include nav/debug.html -%}
         {% endif %}
         
       </div>
