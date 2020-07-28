@@ -5,6 +5,8 @@
   - assigns nav_page_ancestors
   - assigns nav_page_path
   - assigns nav_page_children
+  - assigns nav_page_prev
+  - assigns nav_page_next
   - deletes local nav_* variables
 {%- endcomment -%}
 
@@ -16,6 +18,8 @@
 {%- assign nav_page_ancestors = nil -%}
 {%- assign nav_page_path = nil -%}
 {%- assign nav_page_children = nil -%}
+{%- assign nav_page_prev = nil -%}
+{%- assign nav_page_next = nil -%}
 {%- assign nav_direct = true -%}
 {%- assign nav_page_dir = "/docs" | append: page.dir -%}
 {%- include nav/page.html nodes=nav_top_nodes ancestors=nav_ancestors path="^" -%}

@@ -23,6 +23,14 @@
         {%- assign nav_page_ancestors = include.ancestors -%}
         {%- assign nav_page_path = nav_path -%}
         {%- assign nav_page_children = nav_children -%}
+        {%- assign nav_prev_index0 = forloop.index0 | minus: 1 -%}
+        {%- assign nav_next_index0 = forloop.index0 | plus: 1 -%}
+        {%- if nav_prev_index0 >= 0 -%}
+          {%- assign nav_page_prev = nav_sorted[nav_prev_index0] -%}
+        {%- endif -%}
+        {%- if nav_next_index0 < nav_sorted.size -%}
+          {%- assign nav_page_next = nav_sorted[nav_next_index0] -%}
+        {%- endif -%}
         {%- break -%}
       {%- endif -%}
       {%- if nav_children.size >= 1 -%}
@@ -32,11 +40,13 @@
         {%- else -%}
           {%- assign nav_section = node.section -%}
         {%- endif -%}
+        {%- assign nav_sorted_copy = nav_sorted -%}
         {%- include nav/page.html
               nodes=nav_children
               ancestors=nav_ancestors
               path=nav_path
               section=nav_section -%}
+        {%- assign nav_sorted = nav_sorted_copy -%}
       {%- endif -%}
     {%- endif -%}
   {%- endfor -%}

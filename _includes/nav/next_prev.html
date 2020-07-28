@@ -1,0 +1,21 @@
+{%- comment -%}
+  {%- include nav/prev_next.html
+        prev_node=node
+        next_node=node -%}
+  - outputs breadcrumb navigation for the nodes
+{%- endcomment -%}
+
+<nav aria-label="Breadcrumb" class="next-prev-nav">
+  <ol class="next-prev-nav-list">
+    {%- if include.prev_node -%}
+    <li class="next-prev-nav-list-item">
+      <a href="{{ include.prev_node.url | absolute_url }}">previous</a>
+    </li>
+    {%- endif -%}
+    {%- if include.next_node -%}
+    <li class="next-prev-nav-list-item">
+      <a href="{{ include.next_node.url | absolute_url }}">next</a>
+    </li>
+    {%- endif -%}
+  </ol>
+</nav>

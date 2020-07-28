@@ -69,6 +69,9 @@ nav_sort: case_sensitive # Capital letters sorted before lowercase, numbers by v
 # Display navigation expanders
 nav_expanders: true
 
+# Display next and previous links
+nav_next_prev: true
+
 # Footer content
 # appears at the bottom of every page's main content
 
