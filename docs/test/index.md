@@ -51,6 +51,10 @@ Y
   - T
     - U
 
+## Pages with no title are ignored
+
+Z
+
 ## Navigation notes
 
 The [notes](./about) explain the background and implementation of the current proposal.
