@@ -18,7 +18,9 @@
 
 {{ nav_nodes.size | dump_html: "nav_nodes.size" }}
 {{ page.dir | dump_html: "page.dir" }}
-{{ nav_page_dir | dump_html: "nav_page_dir" }}
+{{ nav_page_path | dump_html: "nav_page_path" }}
+{{ nav_page_ancestors | map: "title" | dump_html: "nav_page_ancestors" }}
+{{ nav_page_children | map: "title" | dump_html: "nav_page_children" }}
 
 {% assign debug_options = debug | split: "," %}
 {% for debug_option in debug_options %}

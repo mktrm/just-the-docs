@@ -26,7 +26,7 @@
         {%- break -%}
       {%- endif -%}
       {%- if nav_children.size >= 1 -%}
-        {%- assign nav_ancestors = include.ancestors | push: node -%}
+        {%- assign nav_children_ancestors = include.ancestors | push: node -%}
         {%- if include.section -%}
           {%- assign nav_section = include.section -%}
         {%- else -%}
@@ -34,7 +34,7 @@
         {%- endif -%}
         {%- include nav/page.html
               nodes=nav_children
-              ancestors=nav_ancestors
+              ancestors=nav_children_ancestors
               path=nav_path
               section=nav_section -%}
       {%- endif -%}
@@ -43,6 +43,6 @@
 {%- endunless -%}
 
 {%- assign nav_children = nil -%}
-{%- assign nav_ancestors = nil -%}
+{%- assign nav_chikdren_ancestors = nil -%}
 {%- assign nav_path = nil -%}
 {%- assign nav_section = nil -%}
