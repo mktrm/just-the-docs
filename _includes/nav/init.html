@@ -8,7 +8,9 @@
   - deletes local nav_* variables
 {%- endcomment -%}
 
-{%- assign nav_nodes = site.html_pages | where_exp: "item", "item.nav_exclude != true" -%}
+{%- assign nav_nodes = site.html_pages
+      | where_exp: "item", "item.nav_exclude != true"
+      | where_exp: "item", "item.title != nil "-%}
 {%- assign nav_top_nodes = nav_nodes | where_exp: "item", "item.parent == nil" -%}
 {%- assign nav_parenthood = nav_nodes | group_by: "parent" -%}
 
