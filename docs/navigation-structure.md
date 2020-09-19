@@ -38,7 +38,7 @@ Additional navigation features include [auxiliary links](#auxiliary-links) at th
 
 ## Ordering pages
 
-To specify a page order, use the `nav_order` field in the YAML front matter of your pages.
+To specify a page order, you can use the `nav_order` parameter in your pages' YAML front matter.
 
 #### Example
 {: .no_toc }
@@ -51,9 +51,13 @@ nav_order: 4
 ---
 ```
 
-The specified `nav_order` fields of pages with the same parent page should be all numbers or all strings. Pages without a `nav_order` field are ordered alphabetically by `title`, and appear after any explicitly-ordered pages that have the same parent page.
+The parameter values determine the order of the top-level pages, and of child pages with the same parent. You can reuse the same parameter values (e.g., integers starting from 1) for the child pages of different parents.
 
-By default, strings and titles are sorted lexicographically, and Capital letters come before lowercase letters. Adding `nav_sort: case_insensitive` in the configuration file ignores case differences when sorting strings and titles, but also sorts numbers lexicographically (so `10` comes before `2`!).
+The parameter values can be numbers (integers, floats) and/or strings. When you omit `nav_order` parameters, they default to the titles of the pages, which are ordered alphabetically. Pages with numerical `nav_order` parameters always come before those with strings or default `nav_order` parameters. If you want to make the page order independent of the page titles, you can set explicit `nav_order` parameters on all pages.
+
+By default, all Capital letters come before all lowercase letters; you can add `nav_sort: case_insensitive` in the configuration file to ignore the case. Enclosing strings in quotation marks is optional.
+
+> *Note for users of previous versions:* `nav_sort: case_insensitive` previously affected the ordering of numerical `nav_order` parameters: e.g., `10` came before `2`. Also, all pages with explicit `nav_order` parameters previously came before all pages with default parameters. Both were potentially confusing, and they have now been eliminated. 
 
 ---
 
@@ -71,6 +75,8 @@ title: 404
 nav_exclude: true
 ---
 ```
+
+Pages with no `title` are automatically excluded from the navigation.
 
 ---
 
