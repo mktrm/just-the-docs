@@ -1,5 +1,4 @@
 ---
-layout: default
 title: Navigation Notes
 nav_exclude: true
 ---

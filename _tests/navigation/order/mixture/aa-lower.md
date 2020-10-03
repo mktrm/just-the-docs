@@ -1,5 +1,4 @@
 ---
-layout: default
 title: aa
 nav_order: "aa"
 parent: Mixture

@@ -1,5 +1,4 @@
 ---
-layout: default
 parent: Exclusion
 ---
 # Untitled

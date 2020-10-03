@@ -1,5 +1,4 @@
 ---
-layout: default
 title: D
 parent: C
 grand_parent: B

@@ -1,5 +1,4 @@
 ---
-layout: default
 title: Exclusion
 parent: Navigation
 ---

@@ -1,5 +1,4 @@
 ---
-layout: default
 title: Mixture
 parent: Order
 nav_order: 5

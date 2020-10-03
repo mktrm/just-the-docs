@@ -1,5 +1,4 @@
 ---
-layout: default
 title: Aa
 nav_order: "Aa"
 parent: Strings

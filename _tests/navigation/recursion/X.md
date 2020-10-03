@@ -1,5 +1,4 @@
 ---
-layout: default
 title: X
 parent: Recursion
 section: x

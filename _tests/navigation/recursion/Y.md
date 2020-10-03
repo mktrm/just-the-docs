@@ -1,5 +1,4 @@
 ---
-layout: default
 title: Y
 parent: Recursion
 section: y

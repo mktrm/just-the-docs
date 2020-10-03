@@ -1,5 +1,4 @@
 ---
-layout: default
 title: Tests
 nav_exclude: true
 ---

@@ -1,5 +1,4 @@
 ---
-layout: default
 title: Floats
 parent: Order
 nav_order: 4

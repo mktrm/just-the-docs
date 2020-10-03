@@ -1,5 +1,4 @@
 ---
-layout: default
 title: Integers
 parent: Order
 nav_order: 3

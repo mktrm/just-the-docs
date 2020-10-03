@@ -1,5 +1,4 @@
 ---
-layout: default
 title: A
 parent: Disambiguation
 ---

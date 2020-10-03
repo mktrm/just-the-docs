@@ -1,5 +1,4 @@
 ---
-layout: default
 title: Default
 parent: Order
 nav_order: 1
