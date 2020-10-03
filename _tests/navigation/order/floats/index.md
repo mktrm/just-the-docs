@@ -3,7 +3,6 @@ layout: default
 title: Floats
 parent: Order
 nav_order: 4
-has_children: true
 ---
 
 # Floating-Point Order

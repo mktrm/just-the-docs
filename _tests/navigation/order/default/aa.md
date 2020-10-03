@@ -2,7 +2,6 @@
 layout: default
 title: Aa
 parent: Default
-grand_parent: Order
 ---
 
 # Aa
@@ -10,5 +9,4 @@ grand_parent: Order
 ```yaml
 title: Aa
 parent: Default
-grand_parent: Order
 ```

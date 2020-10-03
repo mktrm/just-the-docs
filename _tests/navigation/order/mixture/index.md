@@ -3,7 +3,6 @@ layout: default
 title: Mixture
 parent: Order
 nav_order: 5
-has_children: true
 ---
 
 # Mixed Order

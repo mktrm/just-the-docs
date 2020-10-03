@@ -3,7 +3,6 @@ layout: default
 title: Integers
 parent: Order
 nav_order: 3
-has_children: true
 ---
 
 # Integer Order

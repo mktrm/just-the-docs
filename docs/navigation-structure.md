@@ -230,7 +230,7 @@ nav_order: 1
 
 For resolving parents in deeper navigation structures, you can set the `ancestor` field of a page to the title of any page above its `parent` page.  
 
-If you want the navigation structure in different parts of your website to look the same, you can add the title of the top page of each part as the `ancestor` of all its sub-pages. Alternatively, you can choose an arbitrary number or string for each part, and add it as the `section` field on all the pages of that part. Using `section` allows you to change the titles of top pages more easily than when using `ancestor`, but you need to be careful not to use the same `section` value for different parts. See the navigation [test pages]({{ site.baseurl }}{% link docs/test/index.md %}) for examples of the use of `ancestor` and `section`.
+If you want the navigation structure in different parts of your website to look the same, you can add the title of the top page of each part as the `ancestor` of all its sub-pages. Alternatively, you can choose an arbitrary number or string for each part, and add it as the `section` field on all the pages of that part. Using `section` allows you to change the titles of top pages more easily than when using `ancestor`, but you need to be careful not to use the same `section` value for different parts.
 
 ---
 

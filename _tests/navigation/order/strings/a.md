@@ -3,7 +3,6 @@ layout: default
 title: A
 nav_order: A
 parent: Strings
-grand_parent: Order
 ---
 
 # A
@@ -12,5 +11,4 @@ grand_parent: Order
 title: A
 nav_order: A
 parent: Strings
-grand_parent: Order
 ```
