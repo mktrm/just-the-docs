@@ -28,8 +28,8 @@ For deeper navigation structures, see the examples [below](#sections-using-the-s
 The `nav_order` fields of the children of the same parent need to be all strings or all numbers. Children with no `nav_order` are sorted by their titles.
 
 K
-- N
 - M
+- N
 - L
 
 O

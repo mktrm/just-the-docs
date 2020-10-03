@@ -1,0 +1,53 @@
+{%- comment -%}
+  {%- include nav/collection.html 
+        pages=array
+        key=name_or_nil -%}
+  - assigns nav_page_ancestors
+  - assigns nav_page_path
+  - assigns nav_page_children
+  - deletes local nav_* variables
+  
+  After initialising `nav_parenthood`, `init` searches `nav_nodes` for `page`.
+  It then assigns:
+  - `page.path` to `nav_page_path`,
+  - the list of ancestors of `page` to `nav_page_ancestors`, and
+  - the list of children of `page` to `nav_page_children`.
+  
+  When pages are stored in folders whose nesting corresponds to the parent
+  relation, only nodes whose path is a prefix of `page.path` need to be
+  inspected. For larger sites, using paths to direct searching for `page`
+  can significantly reduce the build time. To avoid dependence on assumptions
+  about the folders used to store pages, however, exhaustive search is needed
+  whenever path-directed search fails.
+{%- endcomment -%}
+
+{%- assign nav_nodes = include.pages
+      | where_exp: "item", "item.title != nil "-%}
+{%- include nav/sorted.html nodes=nav_nodes -%}
+{%- assign nav_top_nodes = nav_sorted | where_exp: "item", "item.parent == nil" -%}
+{%- assign nav_parenthood = nav_sorted | group_by: "parent" -%}
+
+{%- assign nav_page_ancestors = nil -%}
+{%- assign nav_page_path = nil -%}
+{%- assign nav_page_children = nil -%}
+
+{%- assign nav_ancestors = "" | split: "X" -%}
+
+{%- if include.key == nil or include.key == page.collection -%}
+  {%- assign nav_page_dir = "/docs" | append: page.dir -%}
+  {%- assign nav_direct = true -%}
+  {%- include nav/page.html nodes=nav_top_nodes ancestors=nav_ancestors path="^" -%}
+  {%- unless nav_page_path -%}
+    {%- assign nav_direct = false -%}
+    {%- include nav/page.html nodes=nav_top_nodes ancestors=nav_ancestors path="^" -%}
+  {%- endunless -%}
+{%- endif -%}
+
+{%- include nav/links.html nodes=nav_top_nodes ancestors=nav_ancestors path="^" -%}
+
+{%- assign nav_ancestors = nil -%}
+{%- assign nav_direct = nil -%}
+{%- assign nav_page_dir = nil -%}
+{%- assign nav_sorted = nil -%}
+{%- assign nav_top_nodes = nil -%}
+{%- assign nav_parenthood = nil -%}

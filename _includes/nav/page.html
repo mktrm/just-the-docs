@@ -11,8 +11,7 @@
 {%- endcomment -%}
 
 {%- unless nav_page_path -%}
-  {%- include nav/sorted.html nodes=include.nodes -%}
-  {%- for node in nav_sorted -%}
+  {%- for node in include.nodes -%}
     {%- if nav_page_dir contains node.dir or nav_direct == false -%}
       {%- include nav/children.html 
             node=node

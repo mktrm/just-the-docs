@@ -10,8 +10,8 @@
 {%- endcomment -%}
 
 <ul class="nav-list">
-  {%- include nav/sorted.html nodes=include.nodes -%}
-  {%- for node in nav_sorted -%}
+{%- for node in include.nodes -%}
+  {%- unless node.nav_exclude == true -%}
     {%- include nav/children.html 
           node=node
           ancestors=include.ancestors
@@ -43,7 +43,8 @@
         {%- endif -%}
       {%- endif -%}
     </li>
-  {%- endfor -%}
+  {%- endunless -%}
+{%- endfor -%}
 </ul>
 
 {%- assign nav_children = nil -%}

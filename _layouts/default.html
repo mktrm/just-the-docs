@@ -2,8 +2,6 @@
 layout: table_wrappers
 ---
 
-{%- include nav/init.html %}
-
 <!DOCTYPE html>
 
 <html lang="{{ site.lang | default: 'en-US' }}">
@@ -60,11 +58,11 @@ layout: table_wrappers
             {% if collections_size > 1 %}
               <div class="nav-category">{{ collection_value.name }}</div>
             {% endif %}
-            {% include nav.html pages=collection %}
+            {% include nav/collection.html pages=collection key=collection_key %}
           {% endif %}
         {% endfor %}
       {% else %}
-        {% include nav.html pages=site.html_pages %}
+        {% include nav/collection.html pages=site.html_pages key=nil %}
       {% endif %}
     </nav>
     <footer class="site-footer">
