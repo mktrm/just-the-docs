@@ -2,7 +2,7 @@
   {%- include nav/children.html
       node=node
       ancestors=array
-      section=string_or_nil -%}
+      section=value_or_nil -%}
   - uses nav_parenthood
   - assigns nav_children all children with matching grand_parent, section, and ancestor fields
   - deletes nav_* local variables
@@ -16,7 +16,7 @@
   {%- if child.grand_parent and child.grand_parent != include.node.parent -%}
     {%- assign nav_child_ok = false -%}
   {%- endif -%}
-  {%- if child.section and include.node.section and child.section != include.node.section -%}
+  {%- if child.section and child.section != include.section -%}
     {%- assign nav_child_ok = false -%}
   {%- endif -%}
   {%- if child.ancestor -%}

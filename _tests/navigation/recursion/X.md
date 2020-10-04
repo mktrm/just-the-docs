@@ -1,11 +1,11 @@
 ---
 title: X
 parent: Recursion
-section: x
+section_id: x
 ---
 # X
 
 ```yaml
 parent: Recursion
-section: x
+section_id: x
 ```

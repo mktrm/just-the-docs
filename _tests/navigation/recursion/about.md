@@ -46,23 +46,23 @@ It implements the following features:
 
 * If you want the navigation structure in different parts of your website to look the same, you can add the title of the top page of each part as the `ancestor` of all its sub-pages. 
 
-* Instead of using `ancestor`, you can choose an arbitrary number or string for each part, and add it as the `section` field on all the pages of that part.
+* Instead of using `ancestor`, you can set an arbitrary number or string as the `section_id` for each part, and add it as the `section` field on all the descendant pages of that part.
 
 ## Implementation overview
 
 [default layout]: https://github.com/pdmosses/just-the-docs/blob/rec-nav/_layouts/default.html
 
-The [default layout] first calls [`init`]. The subsequent calls to [`links`], [`crumbs`], and [`toc`] are independent, so they can be in any order.
+The [default layout] calls [`collection`] for the ordinary pages and for the pages in any collections. The subsequent calls to [`links`], [`crumbs`], and [`toc`] depend on variables assigned by [`collection`].
 
 [`_includes/nav/`]: https://github.com/pdmosses/just-the-docs/tree/rec-nav/_includes/nav
 
 All the following files are in [`_includes/nav/`]. All variables assigned by the code are prefixed by `nav_` (which is elided when referring to variables in the descriptions below).
 
-[`init`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav/_includes/nav/init.html
+[`collection`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav/_includes/nav/collection.html
 
-[`init`]
+[`collection`]
 - called from the [default layout]
-- creates the `parenthood` grouped array based on the `parent` fields, and the `top_nodes` array
+- creates the `parenthood` grouped array based on the `parent` fields
 - calls [`page`] to find where the current page is located in the navigation hierarchy
   - first quickly, using heuristics based on the directory hierarchy
   - if not found, locates the page by exhaustive search
@@ -70,7 +70,7 @@ All the following files are in [`_includes/nav/`]. All variables assigned by the
 [`page`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav/_includes/nav/page.html
 
 [`page`]
-- called from [`init`]
+- called from [`collection`]
 - when `site.nav_direct == true`: heuristic search using the directory hierarchy, may fail
 - when `site.nav_direct == false`: exhaustive search, always succeeds
 - traverses the nav hierarchy top-down until it reaches the current page, then:
@@ -82,8 +82,8 @@ All the following files are in [`_includes/nav/`]. All variables assigned by the
 [`links`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav/_includes/nav/links.html
 
 [`links`]
-- called from the [default layout]
-- traverses the nav hierarchy top-down, outputting an HTML link for each node
+- called from [`collection`]
+- traverses the nav hierarchy top-down, outputting an HTML link for each non-excluded node
 - when `site.nav_expanders == false`: omits nav expanders and inactive links
 - uses `page_path` to test whether each node is active
 - uses [`children`] and [`sorted`] to determine the children of each node

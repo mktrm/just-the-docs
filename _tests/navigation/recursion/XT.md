@@ -1,11 +1,11 @@
 ---
 title: T
 parent: S
-ancestor: X
+section: x
 ---
 # T
 
 ```yaml
 parent: S
-ancestor: X
+section: x
 ```

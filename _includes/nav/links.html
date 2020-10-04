@@ -3,7 +3,7 @@
         nodes=array 
         ancestors=array 
         path=string 
-        section=string -%}
+        section=value_or_nil -%}
   - uses nav_page_path
   - outputs links for the nodes and their children
   - deletes nav_* local variables
@@ -30,10 +30,10 @@
       {%- if nav_children.size >= 1 -%}
         {%- if site.nav_expanders != false or nav_active -%}
           {%- assign nav_ancestors =  include.ancestors | push: node -%}
-          {%- if include.section -%}
-            {%- assign nav_section = include.section -%}
+          {%- if node.section_id -%}
+            {%- assign nav_section = node.section_id -%}
           {%- else -%}
-            {%- assign nav_section = node.section -%}
+            {%- assign nav_section = include.section -%}
           {%- endif -%}
           {%- include nav/links.html
                 nodes=nav_children

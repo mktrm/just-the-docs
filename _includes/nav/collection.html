@@ -7,8 +7,8 @@
   - assigns nav_page_children
   - deletes local nav_* variables
   
-  After initialising `nav_parenthood`, `init` searches `nav_nodes` for `page`.
-  It then assigns:
+  `collection` initialises `nav_parenthood`. When `pages` contains `page`
+  (which is determined by `key` and `page.collection`) it then assigns:
   - `page.path` to `nav_page_path`,
   - the list of ancestors of `page` to `nav_page_ancestors`, and
   - the list of children of `page` to `nav_page_children`.
