@@ -12,10 +12,15 @@
 <ul class="nav-list">
 {%- for node in include.nodes -%}
   {%- unless node.nav_exclude == true -%}
+    {%- if node.section_id -%}
+      {%- assign nav_section = node.section_id -%}
+    {%- else -%}
+      {%- assign nav_section = include.section -%}
+    {%- endif -%}
     {%- include nav/children.html 
           node=node
           ancestors=include.ancestors
-          section=include.section -%}
+          section=nav_section -%}
     {%- assign nav_path = include.path | append: " " | append: forloop.index -%}
     {%- if nav_page_path contains nav_path -%}
       {%- assign nav_active = true -%}
@@ -30,11 +35,6 @@
       {%- if nav_children.size >= 1 -%}
         {%- if site.nav_expanders != false or nav_active -%}
           {%- assign nav_ancestors =  include.ancestors | push: node -%}
-          {%- if node.section_id -%}
-            {%- assign nav_section = node.section_id -%}
-          {%- else -%}
-            {%- assign nav_section = include.section -%}
-          {%- endif -%}
           {%- include nav/links.html
                 nodes=nav_children
                 ancestors=nav_ancestors

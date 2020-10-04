@@ -13,10 +13,15 @@
 {%- unless nav_page_path -%}
   {%- for node in include.nodes -%}
     {%- if nav_page_dir contains node.dir or nav_direct == false -%}
+      {%- if node.section_id -%}
+        {%- assign nav_section = node.section_id -%}
+      {%- else -%}
+        {%- assign nav_section = include.section -%}
+      {%- endif -%}
       {%- include nav/children.html 
             node=node
             ancestors=include.ancestors
-            section=include.section -%}
+            section=nav_section -%}
       {%- assign nav_path =  include.path | append: " " | append: forloop.index -%}
       {%- if node.url == page.url -%}
         {%- assign nav_page_ancestors = include.ancestors -%}
@@ -26,11 +31,6 @@
       {%- endif -%}
       {%- if nav_children.size >= 1 -%}
         {%- assign nav_children_ancestors = include.ancestors | push: node -%}
-        {%- if node.section_id -%}
-          {%- assign nav_section = node.section_id -%}
-        {%- else -%}
-          {%- assign nav_section = include.section -%}
-        {%- endif -%}
         {%- include nav/page.html
               nodes=nav_children
               ancestors=nav_children_ancestors
