@@ -22,7 +22,7 @@ In [PR #192](https://github.com/pmarsceill/just-the-docs/pull/192), [Eugene Kuzm
 * breadcrumbs are no longer dependent on main navigation setting certain variables
 * `nav_exclude` excludes the page from any depth in the menu hierarchy
 
-The implementation of navigation in PR #192 assumes that all pages used as parents have different titles, so that the `parent` fields alone determine the hierarchy. If two parent pages happen to have the same title, the resulting navigation hierarchy includes their combined children twice. The only work-around is to change the page titles to make then all different.
+The implementation of navigation in PR #192 assumes that all pages used as parents have different titles, so that the `parent` fields alone determine the hierarchy. If two parent pages happen to have the same title, the resulting navigation hierarchy includes their combined children twice. The only work-around is to change the page titles to make them all different.
 
 It is possible to adapt the implementation from PR #192 using optional `grand_parent` fields. Existing 3-level sites would not require any changes. However, it is unclear how to best to generalise `grand_parent` to more then three levels, to support the kind of navigation hierarchy mentioned in the following comment on PR #192:
 
@@ -42,7 +42,7 @@ It implements the following features:
 
 * If two parents have the same `title`, but different grandparents, you can set their `grand_parent` titles to distinguish between their parents. The `grand_parent` title needs to be the same as the `parent` of the `parent`.
 
-* For resolving parents in deeper navigation structures, you can set the `ancestor` field of a page to the title of any page above its `parent` page.  
+* For resolving parents in deeper navigation structures, you can set the `ancestor` field of a page to the title of any page reachable by following successive references to `parent` titles.  
 
 * If you want the navigation structure in different parts of your website to look the same, you can add the title of the top page of each part as the `ancestor` of all its sub-pages. 
 
@@ -50,22 +50,34 @@ It implements the following features:
 
 ## Implementation overview
 
+See the comments in the files referenced below for further explanation of the implementation.
+
 [default layout]: https://github.com/pdmosses/just-the-docs/blob/rec-nav/_layouts/default.html
 
-The [default layout] calls [`collection`] for the ordinary pages and for the pages in any collections. The subsequent calls to [`links`], [`crumbs`], and [`toc`] depend on variables assigned by [`collection`].
+The [default layout] calls:
+
+- [`main`] to output the main navigation for the current page,
+- [`crumbs`] to output any breadcrumb navigation at the top of the page, and
+- [`toc`] to output the list of any child page navigation at the bottom of the page.
 
 [`_includes/nav/`]: https://github.com/pdmosses/just-the-docs/tree/rec-nav/_includes/nav
 
-All the following files are in [`_includes/nav/`]. All variables assigned by the code are prefixed by `nav_` (which is elided when referring to variables in the descriptions below).
+All the files that implement the navigation are in the [`_includes/nav/`] folder. All variables assigned by the code are prefixed by `nav_` (which is elided when referring to variables in the descriptions below).
+
+[`main`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav/_includes/nav/main.html
+
+[`main`]
+- called from the [default layout]
+- outputs the main navigation for ordinary pages and for each just-the docs collection
 
 [`collection`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav/_includes/nav/collection.html
 
 [`collection`]
-- called from the [default layout]
-- creates the `parenthood` grouped array based on the `parent` fields
-- calls [`page`] to find where the current page is located in the navigation hierarchy
-  - first quickly, using heuristics based on the directory hierarchy
-  - if not found, locates the page by exhaustive search
+- called from  [`main`]
+- creates the `parenthood` grouped array based on the `parent` fields, using
+  [`sorted`] to sort each set of siblings 
+- if the current page is in the `pages` parameter, calls [`page`] to locate it
+- calls [`links`] to output the navigation links
 
 [`page`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav/_includes/nav/page.html
 
@@ -75,9 +87,9 @@ All the following files are in [`_includes/nav/`]. All variables assigned by the
 - when `site.nav_direct == false`: exhaustive search, always succeeds
 - traverses the nav hierarchy top-down until it reaches the current page, then:
   - sets `page_ancestors` to the array of its ancestors, for use by [`crumbs`]
-  - sets `page_path` the string of indices leading to it, for use by [`links`]
-  - sets `page_children` the array of direct children, for use by [`toc`]
-- uses [`children`] and [`sorted`] to determine the children of each node
+  - sets `page_path` to the string of indices leading to it, for use by [`links`]
+  - sets `page_children` to the array of direct children, for use by [`toc`]
+- uses [`children`] to determine the children of each node
 
 [`links`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav/_includes/nav/links.html
 
@@ -109,7 +121,7 @@ All the following files are in [`_includes/nav/`]. All variables assigned by the
 [`sorted`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav/_includes/nav/sorted.html
 
 [`sorted`]
-- called from [`page`] and [`links`] with an unsorted array of potential child pages
+- called from [`collection`] with an unsorted array of pages
 - sets `sorted` to the result of sorting the array using the `nav_order` fields
 
 [`debug`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav/_includes/nav/debug.html
