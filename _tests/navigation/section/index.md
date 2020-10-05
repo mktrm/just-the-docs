@@ -16,7 +16,6 @@ The following pages test replication of navigation patterns, using sections for 
   - [P 2](p12/) is in section `1`.
     - [Q](q12/)  is in section `1`, and opens section `12`.
       - [R](r12/) is in section `12`.
-
 - [S 2](s1/) opens section `2`.
   - [P 1](p21/) is in section `2`.
     - [Q](q21/)  is in section `2`, and opens section `21`.
