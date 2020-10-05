@@ -75,6 +75,7 @@ title: 404
 nav_exclude: true
 ---
 ```
+The `nav_exclude` parameter does not affect the [auto-generating list of child pages](#auto-generating-table-of-contents), which you can use to access pages excluded from the main navigation.
 
 Pages with no `title` are automatically excluded from the navigation.
 
@@ -82,7 +83,7 @@ Pages with no `title` are automatically excluded from the navigation.
 
 ## Pages with children
 
-Sometimes you will want to create a page with many children (a section). First, it is recommended that you store related pages together in a directory. For example, in these docs, we keep all of the written documentation pages in the `./docs` directory, and each of the sections in subdirectories like `./docs/ui-components` and `./docs/utilities`. This gives us an organization like this:
+Sometimes you will want to create a page with many children. First, it is recommended that you store related pages together in a directory. For example, in these docs, we keep all of the written documentation pages in the `./docs` directory, and each of the sections in subdirectories like `./docs/ui-components` and `./docs/utilities`. This gives us an organization like this:
 
 ```
 +-- ..
@@ -122,7 +123,9 @@ nav_order: 2
 ---
 ```
 
-Here we're setting up the UI Components landing page that is available at URL `/docs/ui-components`, which is ordered second in the main navigation. (Note for users of previous versions of Just the Docs: the `has_children` field is now redundant, and ignored.)
+Here we're setting up the UI Components landing page that is available at URL `/docs/ui-components`, which is ordered second in the main navigation.[^has-children]
+
+[^has-children]: *Note for users of previous versions of Just the Docs:* The `has_children` field is now redundant, and ignored.
 
 By default, the navigation links for all pages with children come with an expander. When you click the expander, the display of the children is toggled, so you can expand or collapse all the children displays, regardless of which page is currently active. To turn off the display of expanders, add the following to `_config.yml`:
 
@@ -149,7 +152,7 @@ nav_order: 2
 ---
 ```
 
-The Buttons page appears as a child of UI Components and appears second in the UI Components section.
+The Buttons page appears as a child of UI Components and appears second in the UI Components pages.
 
 ### Auto-generating Table of Contents
 
@@ -210,7 +213,7 @@ This would create the following navigation structure:
 +-- ..
 ```
 
-If no two pages on your website have the same `title`, you only need to set the `parent` titles to fix the hierarchy. You can also have the same `title` on pages that have no children, provided that they have different `parent` titles.
+If no two pages on your website have the same `title`, you only need to set the `parent` titles to fix the hierarchy. You can also have the same `title` on pages that have no children, provided that they have different parent pages.
 
 If two parents have the same `title`, but different grandparents, you can set their `grand_parent` titles to distinguish between their parents. The `grand_parent` title needs to be the same as the `parent` of the `parent`.
 
@@ -228,9 +231,15 @@ nav_order: 1
 ---
 ```
 
-For resolving parents in deeper navigation structures, you can set the `ancestor` field of a page to the title of any page above its `parent` page.  
+You can use the following techniques for resolving parents in deeper navigation structures (or instead of `grand_parent`): 
 
-If you want the navigation structure in different parts of your website to look the same, you can add the title of the top page of each part as the `ancestor` of all its sub-pages. Alternatively, you can choose an arbitrary number or string for each part, and add it as the `section` field on all the pages of that part. Using `section` allows you to change the titles of top pages more easily than when using `ancestor`, but you need to be careful not to use the same `section` value for different parts.
+Ancestors
+: The `ancestor` field of a page is similar to `grand_parent`: it refers to a page that can be reached by a succession  of `parent` titles.  
+
+Sections
+: You can choose a unique section identifier (a number or string), and add it as the `section_id` field of a page. Then use the same identifier for the `in_section` field of all its descendant pages. If you use a new `section_id` field inside a section, you create a sub-section.
+
+In contrast to `ancestor` values, section identifiers are independent of page titles. However, you need to be careful not to set the same `section_id` value more than once.
 
 ---
 
