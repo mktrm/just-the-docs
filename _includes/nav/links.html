@@ -3,7 +3,7 @@
         nodes=array 
         ancestors=array 
         path=string 
-        section=value_or_nil -%}
+        in_section=value_or_nil -%}
   - uses nav_page_path
   - outputs links for the nodes and their children
   - deletes nav_* local variables
@@ -15,12 +15,12 @@
     {%- if node.section_id -%}
       {%- assign nav_section = node.section_id -%}
     {%- else -%}
-      {%- assign nav_section = include.section -%}
+      {%- assign nav_section = include.in_section -%}
     {%- endif -%}
     {%- include nav/children.html 
           node=node
           ancestors=include.ancestors
-          section=nav_section -%}
+          in_section=nav_section -%}
     {%- assign nav_path = include.path | append: " " | append: forloop.index -%}
     {%- if nav_page_path contains nav_path -%}
       {%- assign nav_active = true -%}
@@ -39,7 +39,7 @@
                 nodes=nav_children
                 ancestors=nav_ancestors
                 path=nav_path
-                section=nav_section -%}
+                in_section=nav_section -%}
         {%- endif -%}
       {%- endif -%}
     </li>

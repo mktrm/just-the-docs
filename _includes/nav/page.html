@@ -3,7 +3,7 @@
         nodes=array 
         ancestors=array 
         path=string 
-        section=value_or_nil -%}
+        in_section=value_or_nil -%}
   - assigns nav_page_ancestors
   - assigns nav_page_path
   - assigns nav_page_children
@@ -16,12 +16,12 @@
       {%- if node.section_id -%}
         {%- assign nav_section = node.section_id -%}
       {%- else -%}
-        {%- assign nav_section = include.section -%}
+        {%- assign nav_section = include.in_section -%}
       {%- endif -%}
       {%- include nav/children.html 
             node=node
             ancestors=include.ancestors
-            section=nav_section -%}
+            in_section=nav_section -%}
       {%- assign nav_path =  include.path | append: " " | append: forloop.index -%}
       {%- if node.url == page.url -%}
         {%- assign nav_page_ancestors = include.ancestors -%}
@@ -35,7 +35,7 @@
               nodes=nav_children
               ancestors=nav_children_ancestors
               path=nav_path
-              section=nav_section -%}
+              in_section=nav_section -%}
       {%- endif -%}
     {%- endif -%}
   {%- endfor -%}
