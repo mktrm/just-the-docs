@@ -23,9 +23,26 @@
 
 {%- assign nav_nodes = include.pages
       | where_exp: "item", "item.title != nil "-%}
-{%- include nav/sorted.html nodes=nav_nodes -%}
-{%- assign nav_top_nodes = nav_sorted | where_exp: "item", "item.parent == nil" -%}
-{%- assign nav_parenthood = nav_sorted | group_by: "parent" -%}
+
+{%- comment -%}
+This code gives the required results, but runs signficantly slower on larger sites:
+  {%- include nav/sorted.html nodes=nav_nodes -%}
+  {%- assign nav_top_nodes = nav_sorted | where_exp: "item", "item.parent == nil" -%}
+  {%- assign nav_parenthood = nav_sorted | group_by: "parent" -%}
+The following code sorts each set of sibling nodes separately, and scales better:
+{%- endcomment -%}
+
+{%- assign nav_top_nodes_unsorted = nav_nodes | where_exp: "item", "item.parent == nil" -%}
+{%- include nav/sorted.html nodes=nav_top_nodes_unsorted -%}
+{%- assign nav_top_nodes = nav_sorted -%}
+
+{%- assign nav_parenthood_unsorted = nav_nodes | group_by: "parent" -%}
+{%- assign nav_parenthood = "" | split: "X" -%}
+{%- for nav_group in nav_parenthood_unsorted -%}
+  {%- include nav/sorted.html nodes=nav_group.items -%}
+  {%- assign nav_group_sorted = nav_sorted | group_by: "parent" | first -%}
+  {%- assign nav_parenthood = nav_parenthood | push: nav_group_sorted -%}
+{%- endfor -%}
 
 {%- assign nav_page_ancestors = nil -%}
 {%- assign nav_page_path = nil -%}
