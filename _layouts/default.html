@@ -48,28 +48,7 @@ layout: table_wrappers
       </a>
     </div>
     <nav role="navigation" aria-label="Main" id="site-nav" class="site-nav">
-      {% assign pages_top_size = site.html_pages
-          | where_exp:"item", "item.title != nil"
-          | where_exp:"item", "item.parent != nil"
-          | where_exp:"item", "item.nav_exclude != true"
-          | size %}
-      {% if pages_top_size > 0 %}
-        {% include nav.html pages=site.html_pages %}
-      {% endif %}
-      {% if site.just_the_docs.collections %}
-        {% assign collections_size = site.just_the_docs.collections | size %}
-        {% for collection_entry in site.just_the_docs.collections %}
-          {% assign collection_key = collection_entry[0] %}
-          {% assign collection_value = collection_entry[1] %}
-          {% assign collection = site[collection_key] %}
-          {% if collection_value.nav_exclude != true %}
-            {% if collections_size > 1 or pages_top_size > 0 %}
-              <div class="nav-category">{{ collection_value.name }}</div>
-            {% endif %}
-            {% include nav/collection.html pages=collection key=collection_key %}
-          {% endif %}
-        {% endfor %}
-      {% endif %}
+      {% include nav/main.html %}
     </nav>
     <footer class="site-footer">
       This site uses <a href="https://github.com/pmarsceill/just-the-docs">Just the Docs</a>, a documentation theme for Jekyll.
@@ -106,8 +85,7 @@ layout: table_wrappers
     </div>
     <div id="main-content-wrap" class="main-content-wrap">
       {% if page.parent and page.url != "/" %}
-        {% include nav/crumbs.html
-              nodes=nav_page_ancestors %}
+        {% include nav/crumbs.html nodes=nav_page_ancestors %}
       {% endif %}
       
       <div id="main-content" class="main-content" role="main">
@@ -118,8 +96,7 @@ layout: table_wrappers
         {% endif %}
 
         {% unless page.has_toc == false %}
-          {% include nav/toc.html
-                nodes=nav_page_children %}
+          {% include nav/toc.html nodes=nav_page_children %}
         {% endunless %}
 
         {% if site.footer_content != nil or site.last_edit_timestamp or site.gh_edit_link %}
