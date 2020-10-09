@@ -1,12 +1,12 @@
 {%- comment -%}
   {%- include nav/links.html 
-        nodes=array 
-        ancestors=array 
-        path=string 
-        in_section=value_or_nil -%}
-  - uses nav_page_path
-  - outputs links for the nodes and their children
-  - deletes nav_* local variables
+        nodes = array 
+        ancestors = array 
+        path = string 
+        in_section = value_or_nil
+        page_path = string
+        parenthood = grouped_array -%}
+  outputs links for the nodes and their children.
 {%- endcomment -%}
 
 <ul class="nav-list">
@@ -18,36 +18,40 @@
       {%- assign nav_section = include.in_section -%}
     {%- endif -%}
     {%- include nav/children.html 
-          node=node
-          ancestors=include.ancestors
-          in_section=nav_section -%}
+          node = node
+          ancestors = include.ancestors
+          in_section = nav_section
+          parenthood = include.parenthood -%}
     {%- assign nav_path = include.path | append: " " | append: forloop.index -%}
-    {%- if nav_page_path contains nav_path -%}
+    {%- if include.page_path contains nav_path -%}
       {%- assign nav_active = true -%}
     {%- else -%}
       {%- assign nav_active = false -%}
     {%- endif -%}
     <li class="nav-list-item{% if nav_active %} active{% endif %}">
-      {%- if nav_children.size >= 1 and site.nav_expanders != false -%}
+      {%- if nav_children.size >= 1 -%}
         <a href="#" class="nav-list-expander"><svg viewBox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a>
       {%- endif -%}
       <a href="{{ node.url | absolute_url }}" class="nav-list-link{% if nav_active %} active{% endif %}">{{ node.title }}</a>
       {%- if nav_children.size >= 1 -%}
-        {%- if site.nav_expanders != false or nav_active -%}
-          {%- assign nav_ancestors =  include.ancestors | push: node -%}
+        {%- assign nav_ancestors =  include.ancestors | push: node -%}
+        {%- if nav_active -%}
           {%- include nav/links.html
-                nodes=nav_children
-                ancestors=nav_ancestors
-                path=nav_path
-                in_section=nav_section -%}
+                nodes = nav_children
+                ancestors = nav_ancestors
+                path = nav_path
+                in_section = nav_section
+                page_path = include.page_path
+                parenthood = include.parenthood -%}
+        {%- else -%}
+          {%- include_cached nav/inactive_links.html
+                nodes = nav_children
+                ancestors = nav_ancestors
+                in_section = nav_section
+                parenthood = include.parenthood -%}
         {%- endif -%}
       {%- endif -%}
     </li>
   {%- endunless -%}
 {%- endfor -%}
 </ul>
-
-{%- assign nav_children = nil -%}
-{%- assign nav_ancestors = nil -%}
-{%- assign nav_path = nil -%}
-{%- assign nav_section = nil -%}

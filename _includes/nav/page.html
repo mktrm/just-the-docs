@@ -1,27 +1,29 @@
 {%- comment -%}
   {%- include nav/page.html 
-        nodes=array 
-        ancestors=array 
-        path=string 
-        in_section=value_or_nil -%}
-  - assigns nav_page_ancestors
-  - assigns nav_page_path
-  - assigns nav_page_children
-  - deletes nav_* local variables
+        nodes = array 
+        ancestors = array 
+        path = string 
+        in_section = value_or_nil -%}
+  searches for the location of the current page in the part of the navigation
+  for the `nodes` parameter, using `nav_parenthood` for finding child pages.
+  When the current page is located, `nav/page` assigns values to
+  `nav_page_ancestors`, `nav_page_path`, and `nav_page_children`.
 {%- endcomment -%}
 
 {%- unless nav_page_path -%}
   {%- for node in include.nodes -%}
-    {%- if nav_page_dir contains node.dir or nav_direct == false -%}
+    {%- assign node_dir = node.path | split: "/" | pop | join: "/" -%}
+    {%- if nav_page_dir contains node_dir or nav_direct == false -%}
       {%- if node.section_id -%}
         {%- assign nav_section = node.section_id -%}
       {%- else -%}
         {%- assign nav_section = include.in_section -%}
       {%- endif -%}
       {%- include nav/children.html 
-            node=node
-            ancestors=include.ancestors
-            in_section=nav_section -%}
+            node = node
+            ancestors = include.ancestors
+            in_section = nav_section
+            parenthood = nav_parenthood -%}
       {%- assign nav_path =  include.path | append: " " | append: forloop.index -%}
       {%- if node.url == page.url -%}
         {%- assign nav_page_ancestors = include.ancestors -%}
@@ -32,16 +34,11 @@
       {%- if nav_children.size >= 1 -%}
         {%- assign nav_children_ancestors = include.ancestors | push: node -%}
         {%- include nav/page.html
-              nodes=nav_children
-              ancestors=nav_children_ancestors
-              path=nav_path
-              in_section=nav_section -%}
+              nodes = nav_children
+              ancestors = nav_children_ancestors
+              path = nav_path
+              in_section = nav_section -%}
       {%- endif -%}
     {%- endif -%}
   {%- endfor -%}
 {%- endunless -%}
-
-{%- assign nav_children = nil -%}
-{%- assign nav_chikdren_ancestors = nil -%}
-{%- assign nav_path = nil -%}
-{%- assign nav_section = nil -%}

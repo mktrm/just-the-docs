@@ -1,8 +1,7 @@
 {%- comment -%}
   {%- include nav/sorted.html
-        nodes=nodes -%}
-  - assigns nav_sorted an array formed by sorting the nodes
-  - deletes local nav_* variables
+        nodes = nodes -%}
+  assigns to `nav_sorted` an array formed by sorting `nodes`.
 
   The values of `title` and `nav_order` can be numbers or strings.
   Jekyll gives build failures when sorting on mixtures of different types,
@@ -21,9 +20,9 @@
       | where_exp:"item", "item.nav_order != nil"  -%}
 
 {%- comment -%}
-  The nav_ordered_pages have to be added to nav_number_ordered_pages and
-  nav_string_ordered_pages, depending on the nav_order value type.
-  The first character of the jsonify result is `"` only for strings.
+  The `nav_ordered_pages` have to be added to `nav_number_ordered_pages` and
+  `nav_string_ordered_pages`, depending on the `nav_order` value type.
+  The first character of the `jsonify` result is `"` only for strings.
 {%- endcomment -%}
 
 {%- assign nav_ordered_groups = nav_ordered_pages
@@ -40,8 +39,8 @@
 {%- assign nav_sorted_number_ordered_pages = nav_number_ordered_pages | sort:"nav_order" -%}
 
 {%- comment -%}
-  The nav_string_ordered_pages have to be sorted by nav_order, and otherwise title
-  (where appending the empty string to a numeric title converts it to a string).
+  The `nav_string_ordered_pages` have to be sorted by `nav_order`, and otherwise
+  `title` (appending the empty string to a numeric title converts it to a string).
   After grouping them by those values, the groups are sorted, then the items
   of each group are concatenated.
 {%- endcomment -%}
@@ -59,12 +58,3 @@
 {%- endfor -%}
 
 {%- assign nav_sorted = nav_sorted_number_ordered_pages | concat: nav_sorted_string_ordered_pages -%}
-
-{%- assign nav_string_ordered_pages = nil -%}
-{%- assign nav_ordered_pages = nil -%}
-{%- assign nav_ordered_groups = nil -%}
-{%- assign nav_number_ordered_pages = nil -%}
-{%- assign nav_string_ordered_pages = nil -%}
-{%- assign nav_sorted_number_ordered_pages = nil -%}
-{%- assign nav_string_ordered_groups = nil -%}
-{%- assign nav_sorted_string_ordered_groups = nil -%}

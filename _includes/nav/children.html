@@ -1,24 +1,29 @@
 {%- comment -%}
   {%- include nav/children.html
-      node=node
-      ancestors=array
-      in_section=value_or_nil -%}
-  - uses nav_parenthood
-  - assigns nav_children all children with matching grand_parent, in_section, and ancestor fields
-  - deletes nav_* local variables
+      node = node
+      ancestors = array
+      in_section = value_or_nil
+      parenthood = grouped_array -%}
+  assigns to `nav_children` all children with matching `grand_parent`,
+  `in_section`, and `ancestor` fields.
 {%- endcomment -%}
 
-{%- assign nav_candidates = nav_parenthood | where: "name", include.node.title | map: "items" | first -%}
+{%- assign nav_candidates = include.parenthood
+      | where: "name", include.node.title | map: "items" | first -%}
 {%- assign nav_children = "" | split: "X" -%}
 {%- assign nav_ancestors_titles = nil -%}
+
 {%- for child in nav_candidates -%}
   {%- assign nav_child_ok = true -%}
+
   {%- if child.grand_parent and child.grand_parent != include.node.parent -%}
     {%- assign nav_child_ok = false -%}
   {%- endif -%}
+
   {%- if child.in_section and child.in_section != include.in_section -%}
     {%- assign nav_child_ok = false -%}
   {%- endif -%}
+
   {%- if child.ancestor -%}
     {%- unless nav_ancestors_titles -%}
       {%- assign nav_ancestors_titles = include.ancestors | map: "title" -%}
@@ -27,11 +32,8 @@
       {%- assign nav_child_ok = false -%}
     {%- endunless -%}
   {%- endif -%}
+
   {%- if nav_child_ok -%}
     {%- assign nav_children = nav_children | push: child -%}
   {%- endif -%}
 {%- endfor -%}
-
-{%- assign nav_candidates = nil -%}
-{%- assign nav_child_ok = nil -%}
-{%- assign nav_ancestors_titles = nil -%}

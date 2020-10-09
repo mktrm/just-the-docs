@@ -13,13 +13,21 @@
   To include both the current debug options:
   
     nav_debug: "nav_parenthood,nav_top_nodes"
+    
+    {{ nav_page_path | dump_html: "nav_page_path" }}
+    {{ nav_page_ancestors | map: "title" | dump_html: "nav_page_ancestors" }}
+    {{ nav_page_children | map: "title" | dump_html: "nav_page_children" }}
+
+    {{ page.path | dump_html: "page.path" }}
+    {{ page.relative_path | dump_html: "page.relative_path" }}
+    {{ page.name | dump_html: "page.name" }}
+    {{ nav_page_dir | dump_html: "nav_page_dir" }}
+    {{ nav_direct | dump_html: "nav_direct" }}
 
 {% endcomment %}
 
-{{ page.dir | dump_html: "page.dir" }}
-{{ nav_page_path | dump_html: "nav_page_path" }}
-{{ nav_page_ancestors | map: "title" | dump_html: "nav_page_ancestors" }}
-{{ nav_page_children | map: "title" | dump_html: "nav_page_children" }}
+{{ nav_parenthood_unsorted | map: "name" | dump_html: "nav_parenthood_unsorted" }}
+
 
 {% assign debug_options = debug | split: "," %}
 {% for debug_option in debug_options %}

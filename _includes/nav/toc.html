@@ -1,15 +1,14 @@
 {%- comment -%}
   {%- include nav/toc.html
-        nodes=array -%}
-  - outputs a table of contents with links to the nodes, unless empty
+        nodes = array -%}
+  outputs a table of contents with links to the nodes, unless empty.
 {%- endcomment -%}
 
 {%- if include.nodes.size >= 1 -%}
   <hr>
   <h2 class="text-delta">Table of contents</h2>
   <ul>
-    {%- include nav/sorted.html nodes=include.nodes -%}
-    {%- for node in nav_sorted -%}
+    {%- for node in include.nodes -%}
       <li>
         <a href="{{ node.url | absolute_url }}">{{ node.title }}</a>
         {%- if node.summary -%}
