@@ -1,7 +1,7 @@
 {%- comment -%}
   {%- include nav/node.html 
         node = node
-        ancestors = array 
+        ancestor_titles = string 
         path = string 
         in_section = value_or_nil
         pages = array
@@ -16,7 +16,7 @@
 {%- endif -%}
 {%- include nav/children.html 
       node = include.node
-      ancestors = include.ancestors
+      ancestor_titles = include.ancestor_titles
       in_section = nav_section -%}
 <li class="nav-list-item{% if include.active %} active{% endif %}">
   {%- if nav_children.size >= 1 -%}
@@ -24,10 +24,11 @@
   {%- endif -%}
   <a href="{{ node.url | absolute_url }}" class="nav-list-link{% if include.active %} active{% endif %}">{{ node.title }}</a>
   {%- if nav_children.size >= 1 -%}
-    {%- assign nav_ancestors =  include.ancestors | push: node -%}
+    {%- assign nav_children_ancestor_titles =  include.ancestor_titles 
+          | append: "^" | append: node.title -%}
     {%- include nav/links.html
           nodes = nav_children
-          ancestors = nav_ancestors
+          ancestor_titles = nav_children_ancestor_titles
           path = nav_path
           in_section = nav_section
           pages = include.pages -%}

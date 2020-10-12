@@ -45,11 +45,13 @@
 {%- if include.key == nil or include.key == page.collection -%}
 
   {%- assign nav_page_dir = page.path | split: "/" | pop | join: "/" -%}
+  {%- assign nav_ancestors = "" | split: "X" -%}
 
   {%- include nav/page.html
         direct = true
         nodes = nav_top_nodes
-        ancestors = empty
+        ancestors = nav_ancestors
+        ancestor_titles = "^"
         path = "^"
         in_section = nil -%}
 
@@ -57,7 +59,8 @@
     {%- include nav/page.html
           direct = false
           nodes = nav_top_nodes
-          ancestors = empty
+          ancestors = nav_ancestors
+          ancestor_titles = "^"
           path = "^"
           in_section = nil -%}
   {%- endunless -%}
@@ -66,7 +69,7 @@
 
 {%- include nav/links.html
       nodes = nav_top_nodes
-      ancestors = empty
+      ancestor_titles = "^"
       path = "^" 
       in_section = nil
       pages = include.pages -%}

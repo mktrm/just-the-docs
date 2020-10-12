@@ -2,7 +2,8 @@
   {%- include nav/page.html 
         direct = bool
         nodes = array 
-        ancestors = array 
+        ancestors = array
+        ancestor_titles = string
         path = string 
         in_section = value_or_nil -%}
   searches for the location of the current page in the part of the navigation
@@ -29,7 +30,7 @@
       
       {%- include nav/children.html 
             node = node
-            ancestors = include.ancestors
+            ancestor_titles = include.ancestor_titles
             in_section = nav_section
             parenthood = nav_parenthood -%}
       
@@ -45,10 +46,13 @@
       
       {%- if nav_children.size >= 1 -%}
         {%- assign nav_children_ancestors = include.ancestors | push: node -%}
+        {%- assign nav_children_ancestor_titles = include.ancestor_titles 
+              | append: "^" | append: node.title -%}
         {%- include nav/page.html
               direct = include.direct
               nodes = nav_children
               ancestors = nav_children_ancestors
+              ancestor_titles = nav_children_ancestor_titles
               path = nav_path
               in_section = nav_section -%}
       {%- endif -%}

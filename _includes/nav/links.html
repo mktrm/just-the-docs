@@ -1,7 +1,7 @@
 {%- comment -%}
   {%- include nav/links.html 
         nodes = array 
-        ancestors = array 
+        ancestor_titles = string 
         path = string 
         in_section = value_or_nil
         pages = array -%}
@@ -23,7 +23,7 @@
     {%- if nav_active or site.nav_cache == false -%}
       {%- include nav/node.html
             node = node
-            ancestors = include.ancestors
+            ancestor_titles = include.ancestor_titles
             path = nav_path
             in_section = include.in_section
             pages = include.pages
@@ -31,7 +31,7 @@
     {%- else -%}
       {%- include_cached nav/inactive_node.html
             node = node
-            ancestors = include.ancestors
+            ancestor_titles = include.ancestor_titles
             in_section = include.in_section
             pages = include.pages -%}
     {%- endif -%}

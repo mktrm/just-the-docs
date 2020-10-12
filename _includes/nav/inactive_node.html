@@ -1,7 +1,7 @@
 {%- comment -%}
   {%- include nav/inactive_node.html 
         node = node
-        ancestors = array 
+        ancestor_titles = string 
         in_section = value_or_nil
         pages = array -%}
   outputs links for the inactive node and its children, which can be cached.
@@ -20,7 +20,7 @@
 
 {%- include nav/children.html 
       node = node
-      ancestors = include.ancestors
+      ancestor_titles = include.ancestor_titles
       in_section = nav_section -%}
       
 <li class="nav-list-item">
@@ -29,10 +29,11 @@
   {%- endif -%}
   <a href="{{ node.url | absolute_url }}" class="nav-list-link">{{ node.title }}</a>
   {%- if nav_children.size >= 1 -%}
-    {%- assign nav_ancestors =  include.ancestors | push: node -%}
+    {%- assign nav_children_ancestor_titles =  include.ancestor_titles 
+          | append: "^" | append: node.title -%}
     {%- include nav/inactive_links.html
           nodes = nav_children
-          ancestors = nav_ancestors
+          ancestor_titles = nav_children_ancestor_titles
           in_section = nav_section
           pages = include.pages -%}
   {%- endif -%}
