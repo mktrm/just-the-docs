@@ -26,11 +26,19 @@
   {%- if nav_children.size >= 1 -%}
     {%- assign nav_children_ancestor_titles =  include.ancestor_titles 
           | append: "^" | append: node.title -%}
-    {%- include nav/links.html
-          nodes = nav_children
-          ancestor_titles = nav_children_ancestor_titles
-          path = nav_path
-          in_section = nav_section
-          pages = include.pages -%}
+    {%- if nav_page_path == include.path -%}
+      {%- include nav/inactive_links.html
+            nodes = nav_children
+            ancestor_titles = nav_children_ancestor_titles
+            in_section = nav_section
+            pages = include.pages -%}
+    {%- else -%}
+      {%- include nav/links.html
+            nodes = nav_children
+            ancestor_titles = nav_children_ancestor_titles
+            path = nav_path
+            in_section = nav_section
+            pages = include.pages -%}
+    {%- endif -%}
   {%- endif -%}
 </li>
