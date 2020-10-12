@@ -1,0 +1,39 @@
+{%- comment -%}
+  {%- include nav/inactive_node.html 
+        node = node
+        ancestors = array 
+        in_section = value_or_nil
+        pages = array -%}
+  outputs links for the inactive node and its children, which can be cached.
+{%- endcomment -%}
+
+{%- unless nav_cached == false -%}
+  {%- include nav/parenthood.html
+        pages = include.pages -%}
+{%- endunless -%}
+
+{%- if node.section_id -%}
+  {%- assign nav_section = node.section_id -%}
+{%- else -%}
+  {%- assign nav_section = include.in_section -%}
+{%- endif -%}
+
+{%- include nav/children.html 
+      node = node
+      ancestors = include.ancestors
+      in_section = nav_section -%}
+      
+<li class="nav-list-item">
+  {%- if nav_children.size >= 1 -%}
+    <a href="#" class="nav-list-expander"><svg viewBox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a>
+  {%- endif -%}
+  <a href="{{ node.url | absolute_url }}" class="nav-list-link">{{ node.title }}</a>
+  {%- if nav_children.size >= 1 -%}
+    {%- assign nav_ancestors =  include.ancestors | push: node -%}
+    {%- include nav/inactive_links.html
+          nodes = nav_children
+          ancestors = nav_ancestors
+          in_section = nav_section
+          pages = include.pages -%}
+  {%- endif -%}
+</li>

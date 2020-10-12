@@ -26,8 +26,7 @@
 
 {% endcomment %}
 
-{{ nav_parenthood_unsorted | map: "name" | dump_html: "nav_parenthood_unsorted" }}
-
+{{ nav_direct | dump_html: "nav_direct" }}
 
 {% assign debug_options = debug | split: "," %}
 {% for debug_option in debug_options %}

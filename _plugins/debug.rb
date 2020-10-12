@@ -3,6 +3,7 @@
 
 # 'debug': Error: private method `new' called for Jekyll::Tags::HighlightBlock:Class
 # 'dump_html', 'dump_text', 'dump_console': work OK
+# 'dump_object_id': added by @pdmosses
 
 # Based on: https://github.com/plusjade/jekyll-bootstrap/blob/master/_plugins/debug.rb
 # The filters below can be used anywhere liquid syntax is parsed (templates, includes, posts/pages/collections)
@@ -46,11 +47,21 @@ module Jekyll
 		# Example usages:
 		# * <tt>{{ site.pages | dump_html }}</tt>
 		# * <tt>{{ site.pages | dump_html: 'pages' }}</tt>
-		def dump_html(obj, label = nil)
+    def dump_html(obj, label = nil)
 			pretty = obj.pretty_inspect
 			pretty = CGI.escape_html(pretty)
 			pretty = "#{prefix(obj, label)}\n#{pretty}" # prefix with type
 			pretty = "<pre class=\"debug\" title=\"#{prefix(obj, label)}\">#{pretty}</pre>"
+			return pretty
+		end
+
+    # Returns a non-highlighted HTML code block displaying the received object_id.
+		# Example usages:
+		# * <tt>{{ site.pages | dump_object_id }}</tt>
+		# * <tt>{{ site.pages | dump_object_id: 'pages' }}</tt>
+    def dump_object_id(obj, label = nil)
+			pretty = "#{prefix(obj, label)}" # prefix with type
+			pretty = "<pre class=\"debug\" title=\"#{pretty}\">#{pretty} object_id = #{obj.object_id}</pre>"
 			return pretty
 		end
 

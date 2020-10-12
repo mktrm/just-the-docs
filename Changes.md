@@ -1,30 +1,25 @@
 Changes
 
-- don't remove nav_exclude==true nodes from nav_nodes
-- sort nav_nodes before grouping as nav_parenthood
-  - more efficient to sort only siblings
-- remove nav/sorted
-- inline nav/init in layout
-- for collections, nav/page called only for the collection of the current page
-- nav/page should include nav_exclude==true nodes in nav_page_children
-- nav/links should ignore nav_exclude==true nodes
+collection
+- assign nav_parenthood, nav_top_nodes
+- page
+- include links nav_top_nodes
 
-default:
-- nav/main
-- nav/crumbs
-- nav/toc
+links nodes
+- for each node
+  - parent or active?
+    - include node node
+    - include_cached inactive_node node
 
-nav/main:
-- if collections
-  - each collection
-    - nav/collection collection
-- else
-  - nav/collection pages
+node node
+- include children node
+- include links nav_children
 
-nav/collection pages:
-- nav/sorted pages
-- assign nav_top_nodes
-- assign nav_parentage
-- if page in collection or no collection
-  - nav/page_coord
-- nav/page_links
+inactive_node node
+- assign nav_parenthood if needed
+- include children node
+- include inactive_links nav_children
+
+inactive_links nodes
+- for each node
+  - include inactive_node node

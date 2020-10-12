@@ -2,13 +2,12 @@
   {%- include nav/children.html
       node = node
       ancestors = array
-      in_section = value_or_nil
-      parenthood = grouped_array -%}
+      in_section = value_or_nil -%}
   assigns to `nav_children` all children with matching `grand_parent`,
   `in_section`, and `ancestor` fields.
 {%- endcomment -%}
 
-{%- assign nav_candidates = include.parenthood
+{%- assign nav_candidates = nav_parenthood
       | where: "name", include.node.title | map: "items" | first -%}
 {%- assign nav_children = "" | split: "X" -%}
 {%- assign nav_ancestors_titles = nil -%}

@@ -4,54 +4,38 @@
         ancestors = array 
         path = string 
         in_section = value_or_nil
-        page_path = string
-        parenthood = grouped_array -%}
-  outputs links for the nodes and their children.
+        pages = array -%}
+  outputs links for non-excluded nodes and their children. The links for an
+  inactive node are independent of the path to the current page, and cached.
 {%- endcomment -%}
 
 <ul class="nav-list">
 {%- for node in include.nodes -%}
   {%- unless node.nav_exclude == true -%}
-    {%- if node.section_id -%}
-      {%- assign nav_section = node.section_id -%}
-    {%- else -%}
-      {%- assign nav_section = include.in_section -%}
-    {%- endif -%}
-    {%- include nav/children.html 
-          node = node
-          ancestors = include.ancestors
-          in_section = nav_section
-          parenthood = include.parenthood -%}
+
     {%- assign nav_path = include.path | append: " " | append: forloop.index -%}
-    {%- if include.page_path contains nav_path -%}
+    {%- if nav_page_path contains nav_path -%}
       {%- assign nav_active = true -%}
     {%- else -%}
       {%- assign nav_active = false -%}
     {%- endif -%}
-    <li class="nav-list-item{% if nav_active %} active{% endif %}">
-      {%- if nav_children.size >= 1 -%}
-        <a href="#" class="nav-list-expander"><svg viewBox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a>
-      {%- endif -%}
-      <a href="{{ node.url | absolute_url }}" class="nav-list-link{% if nav_active %} active{% endif %}">{{ node.title }}</a>
-      {%- if nav_children.size >= 1 -%}
-        {%- assign nav_ancestors =  include.ancestors | push: node -%}
-        {%- if nav_active -%}
-          {%- include nav/links.html
-                nodes = nav_children
-                ancestors = nav_ancestors
-                path = nav_path
-                in_section = nav_section
-                page_path = include.page_path
-                parenthood = include.parenthood -%}
-        {%- else -%}
-          {%- include_cached nav/inactive_links.html
-                nodes = nav_children
-                ancestors = nav_ancestors
-                in_section = nav_section
-                parenthood = include.parenthood -%}
-        {%- endif -%}
-      {%- endif -%}
-    </li>
+
+    {%- if nav_active or site.nav_cache == false -%}
+      {%- include nav/node.html
+            node = node
+            ancestors = include.ancestors
+            path = nav_path
+            in_section = include.in_section
+            pages = include.pages
+            active = nav_active -%}
+    {%- else -%}
+      {%- include_cached nav/inactive_node.html
+            node = node
+            ancestors = include.ancestors
+            in_section = include.in_section
+            pages = include.pages -%}
+    {%- endif -%}
+
   {%- endunless -%}
 {%- endfor -%}
 </ul>

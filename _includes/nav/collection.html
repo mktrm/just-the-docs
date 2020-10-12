@@ -12,9 +12,7 @@
   automatically excluded.)
   
   `collection` first groups `pages` by their `parent` fields, creating an array
-  of hashes. It then creates `nav_parenthood` by sorting the items of each hash.
-  (Sorting pages before grouping them would be simpler, but less efficient on
-  larger sites.)
+  of hashes. It then creates `nav_parenthood`.
   
   When `pages` contains the current page, `collection` then calls `nav/page`
   to search for the navigation path to that page, thereby assigning:
@@ -36,56 +34,39 @@
   parts of it can signficantly reduce the build time for larger sites.)
 {%- endcomment -%}
 
-{%- assign nav_nodes = include.pages | where_exp: "item", "item.title != nil "-%}
-
-{%- assign nav_parenthood_unsorted = nav_nodes | group_by: "parent" -%}
-{%- assign nav_parenthood = "" | split: "X" -%}
-{%- for nav_group in nav_parenthood_unsorted -%}
-  {%- include nav/sorted.html
-        nodes = nav_group.items -%}
-  {%- assign nav_group_sorted = nav_sorted | group_by: "parent" | first -%}
-  {%- assign nav_parenthood = nav_parenthood | push: nav_group_sorted -%}
-{%- endfor -%}
+{%- include nav/parenthood.html
+      pages = include.pages -%}
 
 {%- assign nav_top_nodes = nav_parenthood
       | where_exp: "item", "item.name == ''" | map: "items" | first -%}
 
-{%- assign nav_ancestors = "" | split: "X" -%}
+{%- assign nav_page_path = nil -%}
 
 {%- if include.key == nil or include.key == page.collection -%}
 
   {%- assign nav_page_dir = page.path | split: "/" | pop | join: "/" -%}
 
-  {%- assign nav_direct = true -%}
-  {%- include nav/page.html 
+  {%- include nav/page.html
+        direct = true
         nodes = nav_top_nodes
-        ancestors = nav_ancestors
+        ancestors = empty
         path = "^"
         in_section = nil -%}
 
   {%- unless nav_page_path -%}
-    {%- assign nav_direct = false -%}
-    {%- include nav/page.html 
+    {%- include nav/page.html
+          direct = false
           nodes = nav_top_nodes
-          ancestors = nav_ancestors
+          ancestors = empty
           path = "^"
           in_section = nil -%}
   {%- endunless -%}
-
-  {%- include nav/links.html
-        nodes = nav_top_nodes
-        ancestors = nav_ancestors
-        path = "^" 
-        in_section = nil
-        page_path = nav_page_path
-        parenthood = nav_parenthood -%}
-
-{%- else -%}
-
-  {%- include_cached nav/inactive_links.html 
-      nodes = nav_top_nodes 
-      ancestors = nav_ancestors 
-      in_section = nil
-      parenthood = nav_parenthood -%}
-
+  
 {%- endif -%}
+
+{%- include nav/links.html
+      nodes = nav_top_nodes
+      ancestors = empty
+      path = "^" 
+      in_section = nil
+      pages = include.pages -%}

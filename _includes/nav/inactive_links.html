@@ -1,39 +1,30 @@
 {%- comment -%}
-  {%- include_cached nav/inactive_links.html 
+  {%- include nav/inactive_links.html 
         nodes = array 
         ancestors = array 
         in_section = value_or_nil
-        parenthood = grouped_array -%}
-  outputs cached links for inactive nodes and their children.
+        pages = array -%}
+  outputs links for inactive nodes and their children.
 {%- endcomment -%}
 
 <ul class="nav-list">
 {%- for node in include.nodes -%}
   {%- unless node.nav_exclude == true -%}
-    {%- if node.section_id -%}
-      {%- assign nav_section = node.section_id -%}
+    
+    {%- if site.nav_cache == false -%}
+      {%- include nav/inactive_node.html
+            node = node
+            ancestors = include.ancestors
+            in_section = include.in_section
+            pages = include.pages -%}
     {%- else -%}
-      {%- assign nav_section = include.in_section -%}
+      {%- include_cached nav/inactive_node.html
+            node = node
+            ancestors = include.ancestors
+            in_section = include.in_section
+            pages = include.pages -%}
     {%- endif -%}
-    {%- include nav/children.html 
-          node = node
-          ancestors = include.ancestors
-          in_section = nav_section
-          parenthood = include.parenthood -%}
-    <li class="nav-list-item">
-      {%- if nav_children.size >= 1 -%}
-        <a href="#" class="nav-list-expander"><svg viewBox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a>
-      {%- endif -%}
-      <a href="{{ node.url | absolute_url }}" class="nav-list-link">{{ node.title }}</a>
-      {%- if nav_children.size >= 1 -%}
-        {%- assign nav_ancestors =  include.ancestors | push: node -%}
-        {%- include_cached nav/inactive_links.html
-              nodes = nav_children
-              ancestors = nav_ancestors
-              in_section = nav_section
-              parenthood = include.parenthood -%}
-      {%- endif -%}
-    </li>
+    
   {%- endunless -%}
 {%- endfor -%}
 </ul>

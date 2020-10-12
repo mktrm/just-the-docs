@@ -16,7 +16,9 @@
     | where_exp:"item", "item.nav_exclude != true"
     | size -%}
 {%- if pages_top_size > 0 -%}
-  {%- include nav/collection.html pages=site.html_pages -%}
+  {%- include nav/collection.html
+        pages = site.html_pages
+        key = nil -%}
 {%- endif -%}
 {%- if site.just_the_docs.collections -%}
   {%- assign collections_size = site.just_the_docs.collections | size -%}
@@ -28,7 +30,9 @@
       {%- if collections_size > 1 or pages_top_size > 0 -%}
         <div class="nav-category">{{ collection_value.name }}</div>
       {%- endif -%}
-      {%- include nav/collection.html pages=collection key=collection_key -%}
+      {%- include nav/collection.html
+            pages = collection
+            key = collection_key -%}
     {%- endif -%}
   {%- endfor -%}
 {%- endif -%}
