@@ -3,14 +3,15 @@
         node = node
         ancestor_titles = string 
         in_section = value_or_nil
-        pages = array -%}
-  outputs links for the inactive node and its children, which can be cached.
+        pages = array
+        cached = bool -%}
+  outputs links for the inactive node and its children. The 
 {%- endcomment -%}
 
-{%- unless nav_cached == false -%}
+{%- if include.cached -%}
   {%- include nav/parenthood.html
         pages = include.pages -%}
-{%- endunless -%}
+{%- endif -%}
 
 {%- if node.section_id -%}
   {%- assign nav_section = node.section_id -%}

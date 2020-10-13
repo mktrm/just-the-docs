@@ -36,7 +36,7 @@
       {%- include nav/links.html
             nodes = nav_children
             ancestor_titles = nav_children_ancestor_titles
-            path = nav_path
+            path = include.path
             in_section = nav_section
             pages = include.pages -%}
     {%- endif -%}

@@ -6,7 +6,9 @@
         in_section = value_or_nil
         pages = array -%}
   outputs links for non-excluded nodes and their children. The links for an
-  inactive node are independent of the path to the current page, and cached.
+  inactive node are independent of the path to the current page, but only those
+  for top-level nodes are cached (assuming that large sites have more than one
+  top-level node with large number of child pages).
 {%- endcomment -%}
 
 <ul class="nav-list">
@@ -20,7 +22,7 @@
       {%- assign nav_active = false -%}
     {%- endif -%}
 
-    {%- if nav_active or site.nav_cache == false -%}
+    {%- if nav_active or site.nav_cache == false or node.parent -%}
       {%- include nav/node.html
             node = node
             ancestor_titles = include.ancestor_titles
@@ -33,7 +35,8 @@
             node = node
             ancestor_titles = include.ancestor_titles
             in_section = include.in_section
-            pages = include.pages -%}
+            pages = include.pages
+            cached = true -%}
     {%- endif -%}
 
   {%- endunless -%}

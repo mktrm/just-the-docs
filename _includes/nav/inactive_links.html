@@ -11,19 +11,12 @@
 {%- for node in include.nodes -%}
   {%- unless node.nav_exclude == true -%}
     
-    {%- if site.nav_cache == false -%}
-      {%- include nav/inactive_node.html
-            node = node
-            ancestor_titles = include.ancestor_titles
-            in_section = include.in_section
-            pages = include.pages -%}
-    {%- else -%}
-      {%- include_cached nav/inactive_node.html
-            node = node
-            ancestor_titles = include.ancestor_titles
-            in_section = include.in_section
-            pages = include.pages -%}
-    {%- endif -%}
+    {%- include nav/inactive_node.html
+          node = node
+          ancestor_titles = include.ancestor_titles
+          in_section = include.in_section
+          pages = include.pages
+          cached = false -%}
     
   {%- endunless -%}
 {%- endfor -%}
