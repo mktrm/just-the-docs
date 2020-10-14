@@ -5,9 +5,8 @@
   `nav_page_path`, and `nav_page_children`.
   
   `nav/main` first outputs the main navigation for pages not in any collection.
-  It then outputs the main navigation for the pages in each collection, preceded
-  by the name of the collection. If all pages are in a single collection, its
-  name is not output.
+  It then outputs the main navigation for the pages in each collection (preceded
+  by the name of the collection, unless all pages are in a single collection.)
 {%- endcomment -%}
 
 {%- assign pages_top_size = site.html_pages
@@ -20,9 +19,11 @@
         pages = site.html_pages
         key = nil -%}
 {%- endif -%}
+
 {%- if site.just_the_docs.collections -%}
   {%- assign collections_size = site.just_the_docs.collections | size -%}
   {%- for collection_entry in site.just_the_docs.collections -%}
+
     {%- assign collection_key = collection_entry[0] -%}
     {%- assign collection_value = collection_entry[1] -%}
     {%- assign collection = site[collection_key] -%}
@@ -34,5 +35,6 @@
             pages = collection
             key = collection_key -%}
     {%- endif -%}
+
   {%- endfor -%}
 {%- endif -%}

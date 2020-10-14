@@ -9,6 +9,10 @@
   for the `nodes` parameter, using `nav_parenthood` for finding child pages.
   When the current page is located, `nav/page` assigns values to
   `nav_page_ancestors`, `nav_page_path`, and `nav_page_children`.
+  
+  When `direct` is false, the search is exhaustive; otherwise it is directed by
+  the directory hierarchy. (An outer `docs` directory is ignored, which supports
+  sites where documentation pages are kept separately from source code pages.)
 {%- endcomment -%}
 
 {%- unless nav_page_path -%}

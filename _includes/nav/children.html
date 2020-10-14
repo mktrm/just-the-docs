@@ -3,8 +3,11 @@
       node = node
       path = string
       in_section = value_or_nil -%}
-  assigns to `nav_children` all children with matching `grand_parent`,
-  `in_section`, and `ancestor` fields.
+  assigns to `nav_children` an unsorted array containing children of `node`,
+  including `child` when all its specified disambiguation fields match:
+  - `child.grand_parent == node.parent`,
+  - `child.in_section == in_section`, and
+  - `path contains child.ancestor`.
 {%- endcomment -%}
 
 {%- assign nav_candidates = nav_parenthood

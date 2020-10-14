@@ -8,10 +8,14 @@
   so numbers and strings need to be sorted separately.
 
   Here, numbers are sorted by their values, and come before all strings.
-  An omitted `nav_order` value is equivalent to the page's `title` value
+  An omitted `nav_order` value is equivalent to the node's `title` value
   (except that a numerical `title` value is treated as a string).
 
   The case-sensitivity of string sorting is determined by `site.nav_sort`.
+  
+  Sorting an array with hundreds of nodes on each page of a large site can lead
+  to long build times Moreover, the order of children of different parents is
+  irrelevant. Efficiency is gained by sorting each set of children separately.
 {%- endcomment -%}
 
 {%- assign nav_string_ordered_pages = include.nodes
