@@ -9,8 +9,9 @@
 {%- endcomment -%}
 
 {%- if include.cached -%}
-  {%- include nav/parenthood.html
-        pages = include.pages -%}
+  {%- assign nav_parenthood = include.pages
+        | where_exp: "item", "item.title != nil"
+        | group_by: "parent" -%}
 {%- endif -%}
 
 {%- if node.section_id -%}

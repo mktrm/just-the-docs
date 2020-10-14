@@ -7,8 +7,11 @@
   outputs links for inactive nodes and their children.
 {%- endcomment -%}
 
+{%- include nav/sorted.html
+      nodes = include.nodes -%}
+  
 <ul class="nav-list">
-{%- for node in include.nodes -%}
+{%- for node in nav_sorted -%}
   {%- unless node.nav_exclude == true -%}
     
     {%- include nav/inactive_node.html

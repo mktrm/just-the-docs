@@ -1,0 +1,50 @@
+Configuration file: _tests_config.yml
+            Source: /Users/pdm/Projects/GitHub/just-the-docs
+       Destination: /Users/pdm/Projects/GitHub/just-the-docs/_site
+ Incremental build: disabled. Enable with --incremental
+      Generating... 
+
+Filename                                | Count |    Bytes |   Time
+----------------------------------------+-------+----------+-------
+_includes/nav/links.html                |   106 | 6250.99K | 43.848
+_includes/nav/node.html                 |   103 | 5477.37K | 41.095
+_layouts/default.html                   |   106 | 3138.20K | 23.427
+_includes/nav/main.html                 |   106 | 2138.38K | 20.437
+_includes/nav/collection.html           |   106 | 2134.55K | 19.896
+_includes/nav/page.html                 |   106 |    0.00K |  4.467
+_includes/nav/parenthood.html           |   106 |    0.00K |  4.417
+_includes/nav/sorted.html               |   106 |    0.00K |  3.025
+_includes/nav/children.html             |   106 |    0.00K |  2.666
+_layouts/vendor/compress.html           |   106 | 2915.68K |  1.587
+_includes/nav/inactive_node.html        |    46 |  181.72K |  1.516
+_includes/nav/inactive_links.html       |    40 |  164.31K |  1.301
+_includes/head.html                     |   106 |  178.08K |  0.865
+_includes/vendor/anchor_headings.html   |   106 |  228.18K |  0.381
+_includes/nav/crumbs.html               |    94 |   54.96K |  0.278
+_includes/nav/toc.html                  |   106 |   13.63K |  0.146
+assets/js/zzzz-search-data.json         |     1 |   63.14K |  0.123
+_layouts/table_wrappers.html            |   106 | 3139.22K |  0.034
+_includes/title.html                    |   106 |    1.86K |  0.026
+docs/ui-components/line-nos.md          |     1 |    6.00K |  0.008
+docs/ui-components/code.md              |     1 |    3.29K |  0.006
+assets/js/just-the-docs.js              |     1 |   14.44K |  0.005
+_includes/head_custom.html              |   106 |    0.00K |  0.004
+_includes/css/just-the-docs.scss.liquid |     3 |    0.33K |  0.004
+assets/css/just-the-docs-default.scss   |     1 |    0.11K |  0.004
+assets/css/just-the-docs-light.scss     |     1 |    0.11K |  0.004
+assets/css/just-the-docs-dark.scss      |     1 |    0.11K |  0.003
+404.html                                |     1 |    0.23K |  0.001
+docs/ui-components/buttons.md           |     1 |    2.28K |  0.001
+_includes/fix_linenos.html              |     1 |    1.89K |  0.001
+index.md                                |     1 |    3.24K |  0.001
+docs/ui-components/typography.md        |     1 |    3.43K |  0.000
+docs/navigation-structure.md            |     1 |    9.75K |  0.000
+docs/configuration.md                   |     1 |    6.10K |  0.000
+docs/search.md                          |     1 |    3.07K |  0.000
+_includes/css/custom.scss.liquid        |     3 |    0.08K |  0.000
+docs/customization.md                   |     1 |    2.86K |  0.000
+_includes/js/custom.js                  |     1 |    0.00K |  0.000
+
+ 
+                    done in 30.763 seconds.
+ Auto-regeneration: disabled. Use --watch to enable.

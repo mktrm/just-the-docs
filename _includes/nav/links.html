@@ -11,11 +11,14 @@
   top-level node with large number of child pages).
 {%- endcomment -%}
 
+{%- include nav/sorted.html
+      nodes = include.nodes -%}
+  
 <ul class="nav-list">
-{%- for node in include.nodes -%}
+{%- for node in nav_sorted -%}
   {%- unless node.nav_exclude == true -%}
 
-    {%- assign nav_path = include.path | append: " " | append: forloop.index -%}
+    {%- assign nav_path =  include.path | append: "^" | append: node.title -%}
     {%- if nav_page_path contains nav_path -%}
       {%- assign nav_active = true -%}
     {%- else -%}

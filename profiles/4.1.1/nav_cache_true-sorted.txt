@@ -1,0 +1,70 @@
+Configuration file: /Users/pdm/Projects/GitHub/just-the-docs/_tests_config.yml
+            Source: /Users/pdm/Projects/GitHub/just-the-docs
+       Destination: /Users/pdm/Projects/GitHub/just-the-docs/_site
+ Incremental build: disabled. Enable with --incremental
+      Generating... 
+
+Build Process Summary: 
+
+| PHASE      |    TIME |
++------------+---------+
+| RESET      |  0.0005 |
+| READ       |  1.0742 |
+| GENERATE   |  0.0000 |
+| RENDER     | 16.9007 |
+| CLEANUP    |  0.0142 |
+| WRITE      |  0.1016 |
++------------+---------+
+| TOTAL TIME | 18.0912 |
+ 
+
+Site Render Stats: 
+
+| Filename                                 | Count |     Bytes |    Time |
++------------------------------------------+-------+-----------+---------+
+| _includes/nav/links.html                 |  3368 |  6250.99K |  22.809 |
+| _includes/nav/node.html                  |  6400 |  5477.37K |  20.474 |
+| _layouts/default.html                    |   106 |  3175.65K |  13.623 |
+| _includes/nav/main.html                  |   106 |  2138.38K |  13.004 |
+| _includes/nav/collection.html            |   212 |  2134.55K |  12.826 |
+| _includes/nav/page.html                  |   931 |     0.00K |   4.355 |
+| _includes/nav/parenthood.html            |   228 |     0.00K |   4.126 |
+| _includes/nav/children.html              |  9984 |     0.00K |   3.471 |
+| _includes/nav/sorted.html                |  3694 |     0.00K |   3.064 |
+| _includes/nav/inactive_node.html         |   358 |   181.72K |   1.095 |
+| _layouts/vendor/compress.html            |   106 |  2952.96K |   1.080 |
+| _includes/nav/inactive_links.html        |   185 |   164.31K |   0.779 |
+| _includes/head.html                      |   106 |   206.79K |   0.359 |
+| assets/js/zzzz-search-data.json          |     1 |    63.14K |   0.135 |
+| _includes/vendor/anchor_headings.html    |   106 |   236.91K |   0.113 |
+| _includes/nav/toc.html                   |   106 |    13.63K |   0.023 |
+| _layouts/table_wrappers.html             |   106 |  3176.67K |   0.017 |
+| docs/ui-components/line-nos.md           |     1 |     6.00K |   0.010 |
+| _includes/nav/crumbs.html                |    94 |    54.96K |   0.009 |
+| assets/css/just-the-docs-dark.scss       |     1 |     0.11K |   0.006 |
+| _includes/title.html                     |   106 |     1.86K |   0.005 |
+| assets/js/just-the-docs.js               |     1 |    14.44K |   0.004 |
+| _includes/css/just-the-docs.scss.liquid  |     3 |     0.33K |   0.004 |
+| assets/css/just-the-docs-dark.css.map    |     1 |   193.64K |   0.002 |
+| assets/css/just-the-docs-default.css.map |     1 |   193.14K |   0.002 |
+| 404.html                                 |     1 |     0.23K |   0.002 |
+| docs/ui-components/code.md               |     1 |     3.29K |   0.002 |
+| assets/css/just-the-docs-light.css.map   |     1 |   193.14K |   0.002 |
+| docs/ui-components/buttons.md            |     1 |     2.31K |   0.001 |
+| _includes/head_custom.html               |   106 |     0.00K |   0.001 |
+| _includes/fix_linenos.html               |     2 |     1.89K |   0.001 |
+| index.md                                 |     1 |     3.26K |   0.001 |
+| docs/configuration.md                    |     1 |     6.12K |   0.001 |
+| docs/ui-components/typography.md         |     1 |     3.45K |   0.001 |
+| docs/navigation-structure.md             |     1 |     9.77K |   0.000 |
+| assets/css/just-the-docs-default.scss    |     1 |     0.11K |   0.000 |
+| assets/css/just-the-docs-light.scss      |     1 |     0.11K |   0.000 |
+| docs/search.md                           |     1 |     3.07K |   0.000 |
+| _includes/css/custom.scss.liquid         |     3 |     0.08K |   0.000 |
+| docs/customization.md                    |     1 |     2.86K |   0.000 |
+| _includes/js/custom.js                   |     1 |     0.00K |   0.000 |
++------------------------------------------+-------+-----------+---------+
+| TOTAL (for 41 files)                     | 26435 | 26867.22K | 101.408 |
+ 
+                    done in 18.212 seconds.
+ Auto-regeneration: disabled. Use --watch to enable.
