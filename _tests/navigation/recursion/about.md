@@ -50,9 +50,11 @@ It implements the following features:
 
 ## Implementation overview
 
-See the comments in the files referenced below for further explanation of the implementation.
+[regression tests]: https://github.com/pdmosses/just-the-docs/tree/rec-nav-cache/_tests
 
-[default layout]: https://github.com/pdmosses/just-the-docs/blob/rec-nav/_layouts/default.html
+See the comments in the files referenced below for further explanation of the implementation. The [regression tests] include examples exploiting all the above features for disambiguating parents in recursive navigation hierarchies.
+
+[default layout]: https://github.com/pdmosses/just-the-docs/blob/rec-nav-cache/_layouts/default.html
 
 The [default layout] calls:
 
@@ -60,72 +62,91 @@ The [default layout] calls:
 - [`crumbs`] to output any breadcrumb navigation at the top of the page, and
 - [`toc`] to output the list of any child page navigation at the bottom of the page.
 
-[`_includes/nav/`]: https://github.com/pdmosses/just-the-docs/tree/rec-nav/_includes/nav
+[`_includes/nav/`]: https://github.com/pdmosses/just-the-docs/tree/rec-nav-cache/_includes/nav
 
 All the files that implement the navigation are in the [`_includes/nav/`] folder. All variables assigned by the code are prefixed by `nav_` (which is elided when referring to variables in the descriptions below).
 
-[`main`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav/_includes/nav/main.html
+[`main`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav-cache/_includes/nav/main.html
 
 [`main`]
 - called from the [default layout]
 - outputs the main navigation for ordinary pages and for each just-the docs collection
 
-[`collection`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav/_includes/nav/collection.html
+[`collection`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav-cache/_includes/nav/collection.html
 
 [`collection`]
 - called from  [`main`]
-- creates the `parenthood` grouped array based on the `parent` fields, using
-  [`sorted`] to sort each set of siblings 
+- creates the `parenthood` grouped array based on the `parent` fields
 - if the current page is in the `pages` parameter, calls [`page`] to locate it
 - calls [`links`] to output the navigation links
 
-[`page`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav/_includes/nav/page.html
+[`page`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav-cache/_includes/nav/page.html
 
 [`page`]
 - called from [`collection`]
-- when `site.nav_direct == true`: heuristic search using the directory hierarchy, may fail
-- when `site.nav_direct == false`: exhaustive search, always succeeds
+- when `direct` is true: heuristic search using the directory hierarchy, may fail
+- when `direct` is false: exhaustive search, always succeeds
 - traverses the nav hierarchy top-down until it reaches the current page, then:
   - sets `page_ancestors` to the array of its ancestors, for use by [`crumbs`]
   - sets `page_path` to the string of indices leading to it, for use by [`links`]
-  - sets `page_children` to the array of direct children, for use by [`toc`]
+  - sets `page_children` to the sorted array of direct children, for use by [`toc`]
 - uses [`children`] to determine the children of each node
 
-[`links`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav/_includes/nav/links.html
+[`links`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav-cache/_includes/nav/links.html
 
 [`links`]
-- called from [`collection`]
-- traverses the nav hierarchy top-down, outputting an HTML link for each non-excluded node
-- when `site.nav_expanders == false`: omits nav expanders and inactive links
+- called from [`collection`] and [`node`]
+- uses [`sorted`] to sort the nodes
+- traverses the nav hierarchy top-down, outputting an HTML link for each non-excluded node using [`node`] or [`inactive_node`]
 - uses `page_path` to test whether each node is active
-- uses [`children`] and [`sorted`] to determine the children of each node
+- uses [`children`] to determine the children of each node
 
-[`crumbs`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav/_includes/nav/crumbs.html
+[`node`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav-cache/_includes/nav/node.html
+
+[`node`]
+- called from [`links`]
+- outputs the link for a node, then for its children using [`links`] or [`inactive_links`]
+
+[`inactive_links`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav-cache/_includes/nav/inactive_links.html
+
+[`inactive_links`]
+- called from [`node`] and [`inactive_node`]
+- uses [`sorted`] to sort the nodes
+- traverses the nav hierarchy top-down, outputting an HTML link for each non-excluded node using [`inactive_node`]
+- uses [`children`] to determine the children of each node
+
+[`inactive_node`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav-cache/_includes/nav/inactive_node.html
+
+[`inactive_node`]
+- called from [`inactive_links`]
+- outputs the link for a node, then for its children using [`inactive_links`]
+
+[`crumbs`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav-cache/_includes/nav/crumbs.html
 
 [`crumbs`]
 - called from the [default layout] with parameter `page_ancestors`
 - outputs HTML for the given array of pages
 
-[`toc`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav/_includes/nav/toc.html
+[`toc`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav-cache/_includes/nav/toc.html
 
 [`toc`]
 - called from the [default layout] with parameter `page_children`
 - outputs HTML for the given array of pages
 
-[`children`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav/_includes/nav/children.html
+[`children`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav-cache/_includes/nav/children.html
 
 [`children`]
 - called from [`page`] and [`links`] with an array of potential child pages
 - sets `children` to those pages with matching `grand_parent`, `section`, and `ancestor` fields
 
-[`sorted`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav/_includes/nav/sorted.html
+[`sorted`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav-cache/_includes/nav/sorted.html
 
 [`sorted`]
 - called from [`collection`] with an unsorted array of pages
 - sets `sorted` to the result of sorting the array using the `nav_order` fields
 
-[`debug`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav/_includes/nav/debug.html
-[plugin]: https://github.com/pdmosses/just-the-docs/blob/rec-nav/_plugins/debug.rb
+[`debug`]: https://github.com/pdmosses/just-the-docs/blob/rec-nav-cache/_includes/nav/debug.html
+[plugin]: https://github.com/pdmosses/just-the-docs/blob/rec-nav-cache/_plugins/debug.rb
 
 [`debug`]
 - called from the [default layout]
@@ -135,11 +156,14 @@ All the files that implement the navigation are in the [`_includes/nav/`] folder
 
 ## Efficiency
 
-For quicker local testing, use the configuration option:
+The local build time for a moderate-sized site (150 pages, average branching: 5, average depth: 3) on a MacBook Air is about 30 seconds using Jekyll 4.1.1, and about 45 seconds using Jekyll 3.8.5. Building the current theme documentation pages with the regression tests takes about 15 seconds with Jekyll 4.1.1, and 25 seconds with Jekyl 3.8.5.
 
-```yaml
-nav_expanders: false
-```
+The performance of the implementation has been optimised by:
+- using [`jekyll-include-cache`] (v0.2.1) to cache the navigation links for inactive top-level pages
+- avoiding unnecessary sorting of large arrays of pages
+- using heuristics to guide the search for the current page in the navigation hierarchy
+- separating searching for the location of a page from outputting the links for it
 
-This option also reduces the amount of HTML generated for the sidebar,
-which can be significant on sites with large nav hierarchies.
+Suggestions for further optimisations are welcome!
+
+[`jekyll-include-cache`]: https://github.com/benbalter/jekyll-include-cache

@@ -11,8 +11,8 @@
   default titles for pages in collections, so their untitled pages are not
   automatically excluded.)
   
-  `collection` first groups `pages` by their `parent` fields, creating an array
-  of hashes. assigned to `nav_parenthood`.
+  `collection` first groups `pages` by their `parent` fields, creating an
+  unsorted array of hashes, assigned to `nav_parenthood`.
   
   When `pages` contains the current `page`, `collection` calls `nav/page` to 
   search for the navigation path to `page`, then:
