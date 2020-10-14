@@ -52,7 +52,6 @@
         direct = true
         nodes = nav_top_nodes
         ancestors = nav_ancestors
-        ancestor_titles = "^"
         path = "^"
         in_section = nil -%}
 
@@ -61,7 +60,6 @@
           direct = false
           nodes = nav_top_nodes
           ancestors = nav_ancestors
-          ancestor_titles = "^"
           path = "^"
           in_section = nil -%}
   {%- endunless -%}
@@ -70,7 +68,6 @@
 
 {%- include nav/links.html
       nodes = nav_top_nodes
-      ancestor_titles = "^"
       path = "^" 
       in_section = nil
       pages = include.pages -%}

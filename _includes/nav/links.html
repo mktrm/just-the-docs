@@ -1,7 +1,6 @@
 {%- comment -%}
   {%- include nav/links.html 
         nodes = array 
-        ancestor_titles = string 
         path = string 
         in_section = value_or_nil
         pages = array -%}
@@ -28,7 +27,6 @@
     {%- if nav_active or site.nav_cache == false or node.parent -%}
       {%- include nav/node.html
             node = node
-            ancestor_titles = include.ancestor_titles
             path = nav_path
             in_section = include.in_section
             pages = include.pages
@@ -36,7 +34,7 @@
     {%- else -%}
       {%- include_cached nav/inactive_node.html
             node = node
-            ancestor_titles = include.ancestor_titles
+            path = nav_path
             in_section = include.in_section
             pages = include.pages
             cached = true -%}

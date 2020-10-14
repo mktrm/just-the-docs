@@ -1,7 +1,7 @@
 {%- comment -%}
   {%- include nav/children.html
       node = node
-      ancestor_titles = string
+      path = string
       in_section = value_or_nil -%}
   assigns to `nav_children` all children with matching `grand_parent`,
   `in_section`, and `ancestor` fields.
@@ -24,7 +24,7 @@
 
   {%- if child.ancestor -%}
     {%- assign nav_child_ancestor_title = "^" | append: child.ancestor -%}
-    {%- unless include.ancestor_titles contains nav_child_ancestor_title -%}
+    {%- unless include.path contains nav_child_ancestor_title -%}
       {%- assign nav_child_ok = false -%}
     {%- endunless -%}
   {%- endif -%}

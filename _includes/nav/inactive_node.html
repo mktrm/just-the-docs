@@ -1,7 +1,7 @@
 {%- comment -%}
   {%- include nav/inactive_node.html 
         node = node
-        ancestor_titles = string 
+        path = string 
         in_section = value_or_nil
         pages = array
         cached = bool -%}
@@ -22,7 +22,7 @@
 
 {%- include nav/children.html 
       node = node
-      ancestor_titles = include.ancestor_titles
+      path = include.path
       in_section = nav_section -%}
       
 <li class="nav-list-item">
@@ -31,11 +31,10 @@
   {%- endif -%}
   <a href="{{ node.url | absolute_url }}" class="nav-list-link">{{ node.title }}</a>
   {%- if nav_children.size >= 1 -%}
-    {%- assign nav_children_ancestor_titles =  include.ancestor_titles 
-          | append: "^" | append: node.title -%}
+    {%- assign nav_path =  include.path | append: "^" | append: node.title -%}
     {%- include nav/inactive_links.html
           nodes = nav_children
-          ancestor_titles = nav_children_ancestor_titles
+          path = nav_path
           in_section = nav_section
           pages = include.pages -%}
   {%- endif -%}

@@ -3,7 +3,6 @@
         direct = bool
         nodes = array 
         ancestors = array
-        ancestor_titles = string
         path = string 
         in_section = value_or_nil -%}
   searches for the location of the current page in the part of the navigation
@@ -14,12 +13,14 @@
 
 {%- unless nav_page_path -%}
   {%- for node in include.nodes -%}
+
     {%- assign node_dir_list = node.path | split: "/" -%}
     {%- if node_dir_list.first == "docs" -%}
       {%- assign node_dir = node_dir_list | shift | pop | join: "/" -%}
     {%- else -%}
       {%- assign node_dir = node_dir_list | pop | join: "/" -%}
     {%- endif -%}
+
     {%- if nav_page_dir contains node_dir or include.direct == false -%}
       
       {%- if node.section_id -%}
@@ -30,7 +31,7 @@
       
       {%- include nav/children.html 
             node = node
-            ancestor_titles = include.ancestor_titles
+            path = include.path
             in_section = nav_section
             parenthood = nav_parenthood -%}
       
@@ -48,13 +49,10 @@
       
       {%- if nav_children.size >= 1 -%}
         {%- assign nav_children_ancestors = include.ancestors | push: node -%}
-        {%- assign nav_children_ancestor_titles = include.ancestor_titles 
-              | append: "^" | append: node.title -%}
         {%- include nav/page.html
               direct = include.direct
               nodes = nav_children
               ancestors = nav_children_ancestors
-              ancestor_titles = nav_children_ancestor_titles
               path = nav_path
               in_section = nav_section -%}
       {%- endif -%}

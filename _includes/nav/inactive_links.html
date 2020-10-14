@@ -1,7 +1,7 @@
 {%- comment -%}
   {%- include nav/inactive_links.html 
         nodes = array 
-        ancestor_titles = string 
+        path = string 
         in_section = value_or_nil
         pages = array -%}
   outputs links for inactive nodes and their children.
@@ -16,7 +16,7 @@
     
     {%- include nav/inactive_node.html
           node = node
-          ancestor_titles = include.ancestor_titles
+          path = include.path
           in_section = include.in_section
           pages = include.pages
           cached = false -%}
