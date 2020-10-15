@@ -26,10 +26,13 @@
       in_section = nav_section -%}
       
 <li class="nav-list-item">
+  
   {%- if nav_children.size >= 1 -%}
     <a href="#" class="nav-list-expander"><svg viewBox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a>
   {%- endif -%}
+  
   <a href="{{ node.url | absolute_url }}" class="nav-list-link">{{ node.title }}</a>
+  
   {%- if nav_children.size >= 1 -%}
     {%- assign nav_path =  include.path | append: "^" | append: node.title -%}
     {%- include nav/inactive_links.html
