@@ -87,11 +87,16 @@
         {% endif %}
 
         {% assign currLevel = node | replace: '"', '' | slice: 0, 1 | times: 1 %}
-
-        {% if currLevel < minHeader or currLevel > maxHeader %}
-            {% continue %}
+        {% assign nextLevel = nodes[forloop.index] | replace: '"', '' | slice: 0, 1 | times: 1 %}
+        {% if nextLevel < minHeader or nextLevel > maxHeader %}
+            {% assign nextLevel = "0" %}
         {% endif %}
 
+        {% if currLevel < minHeader or currLevel > maxHeader %}
+        {% continue %}
+        {% endif %}
+        
+        
         {% assign _workspace = node | split: '</h' %}
 
         {% assign _idWorkspace = _workspace[0] | split: 'id="' %}
@@ -152,11 +157,12 @@
             {% capture jekyll_toc %}{{ jekyll_toc }}</li>{% endcapture %}
         {% endif %}
 
-        {% if subMenuLevel != minHeader %} 
-            {% capture listExpander %}<a submenu={{subMenuLevel}} last={{lastLevel}} min={{minHeader}} max={{maxHeader}} href="#" class="nav-list-expander"><svg viewBox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a>{% endcapture %}
+        {% if currLevel != nextLevel %}
+            {% capture listExpander %}<a idx={{forloop.index}} currLevel={{currLevel}} nextLevel={{nextLevel}} max={{maxHeader}} href="#" class="nav-list-expander"><svg viewBox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a>{% endcapture %}
         {% else %}
-            {% assign listExpander = '' %}
-        {%- endif %}
+            {% assign listExpander = "" %}
+        {% endif %}
+
 
         {% capture jekyll_toc %}{{ jekyll_toc }}<li{{ listItemClass }}>{{listExpander}} {{listItem }}{% endcapture %}
 

@@ -57,8 +57,8 @@ layout: table_wrappers
       {% if page.toc %}
       <!-- <aside class="sidebar__right">
         <nav class="toc"> -->
-          <header><h4 class="nav__title"><i class="fa fa-{{ page.toc_icon | default: 'file-text' }}"></i> {{ page.toc_label | default: site.data.ui-text[site.locale].toc_label }}</h4></header>
-          {% include toc.html sanitize=true html=content h_min=2 h_max=3 class="nav-list" item_class="nav-list-item" submenu_class="nav-list" anchor_class="nav-list-link" %}
+          <header><h4 class="nav__title"><i class="fas fa-{{ page.toc_icon | default: 'file-text' }}"></i> {{ page.toc_label | default: site.data.ui-text[site.locale].toc_label }}</h4></header>
+          {% include toc.html sanitize=true html=content h_min=page.toc_hmin h_max=toc_hmax class="nav-list" item_class="nav-list-item" submenu_class="nav-list" anchor_class="nav-list-link" %}
         <!-- </nav>
       </aside> -->
       {% endif %}

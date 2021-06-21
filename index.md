@@ -6,6 +6,10 @@ description: "Just the Docs is a responsive Jekyll theme with built-in search th
 permalink: /
 toc: true
 toc_sticky: true
+toc_icon: file
+toc_hmin: 1
+toc_hmax: 6
+toc_label: "on this page"
 ---
 {% include toc.html %}
 # Focus on writing good documentation
