@@ -488,7 +488,7 @@ jtd.onReady(function(){
       contentClass: "active", // applied to the content
       
       // Nested navigation
-      nested: false, // if true, add classes to parents of active link
+      nested: true, // if true, add classes to parents of active link
       nestedClass: "active", // applied to the parent items
       
       // Offset & reflow

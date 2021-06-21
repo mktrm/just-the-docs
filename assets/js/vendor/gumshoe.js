@@ -237,7 +237,7 @@
 		// Remove the active class from the nav and content
 		li.classList.remove(settings.navClass);
 		items.content.classList.remove(settings.contentClass);
-
+		items.nav.classList.remove(settings.navClass)
 		// Deactivate any parent navs in a nested navigation
 		deactivateNested(li, settings);
 
@@ -290,7 +290,7 @@
 		// Add the active class to the nav and content
 		li.classList.add(settings.navClass);
 		items.content.classList.add(settings.contentClass);
-
+		items.nav.classList.add(settings.navClass)
 		// Activate any parent navs in a nested navigation
 		activateNested(li, settings);
 

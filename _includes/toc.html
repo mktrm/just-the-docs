@@ -89,7 +89,7 @@
         {% assign currLevel = node | replace: '"', '' | slice: 0, 1 | times: 1 %}
         {% assign nextLevel = nodes[forloop.index] | replace: '"', '' | slice: 0, 1 | times: 1 %}
         {% if nextLevel < minHeader or nextLevel > maxHeader %}
-            {% assign nextLevel = "0" %}
+            {% assign nextLevel = 0 %}
         {% endif %}
 
         {% if currLevel < minHeader or currLevel > maxHeader %}
@@ -157,7 +157,7 @@
             {% capture jekyll_toc %}{{ jekyll_toc }}</li>{% endcapture %}
         {% endif %}
 
-        {% if currLevel != nextLevel %}
+        {% if currLevel < nextLevel %}
             {% capture listExpander %}<a idx={{forloop.index}} currLevel={{currLevel}} nextLevel={{nextLevel}} max={{maxHeader}} href="#" class="nav-list-expander"><svg viewBox="0 0 24 24"><use xlink:href="#svg-arrow-right"></use></svg></a>{% endcapture %}
         {% else %}
             {% assign listExpander = "" %}
